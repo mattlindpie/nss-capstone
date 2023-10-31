@@ -1,0 +1,44 @@
+@startuml
+
+actor "Client" as client
+participant "API Gateway/Lambda" as apiGateway
+participant "GetRecipeActivity" as getRecipeActivity
+participant "RecipeDao" as recipeDao
+
+database "DynamoDB" as dynamoDB
+
+title Get Recipe
+
+client -> apiGateway : HTTP Request
+activate apiGateway
+
+apiGateway -> getRecipeActivity : GetRecipeRequest
+
+getRecipeActivity -> recipeDao : getRecipe(userId, recipeName)
+
+recipeDao -> dynamoDB : lookup by userId/:recipeName
+activate dynamoDB
+
+alt if recipe does not exist
+dynamoDB --> recipeDao : return with no item data
+recipeDao --> getRecipeActivity: throw RecipeNotFoundException
+getRecipeActivity --> apiGateway: propagate RecipeNotFoundException
+apiGateway --> client: return 400 response
+else else continue
+end
+
+dynamoDB --> recipeDao: return Recipe data
+deactivate dynamoDB
+
+dynamoDB --> recipeDao : return 200 response
+deactivate dynamoDB
+
+recipeDao --> getRecipeActivity : return Recipe object
+deactivate recipeDao
+
+getRecipeActivity --> apiGateway : return recipe object
+
+apiGateway --> client : return 200 response with AddSongToPlaylistResult data
+deactivate apiGateway
+
+@enduml

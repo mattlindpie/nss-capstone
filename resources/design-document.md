@@ -12,6 +12,10 @@ People have to balance a lot of tasks when they cook. It's difficult for some to
 
 ---
 
+1. Would it be a good idea to cache the recipes that are called from the database?
+2. Does it make sense to store the ShoppingList items as a Map<Ingredient, Integer(quantity)> as opposed to 
+just having a Set<String(ingredientNames)>
+
 ## 3. Use Cases
 
 ---
@@ -68,7 +72,17 @@ U12. As a customer, I want to have my favorite recipes displayed on the homepage
 
 ---
 
+This app will provide the minimum viable product including creating, retrieving, updating, and deleting recipes,
+along with creating an editable shopping list, displaying all recipes on the homepage, and displaying a chosen
+recipe with adjustable requirements according to number of desired servings, and with the ability to toggle
+between systems of measurement.
+
 Current expected endpoints(`CreateRecipe`, `GetRecipe`, `GetAllRecipes`, `UpdateRecipe`, `DeleteRecipe`,  `CreateList`, `GetList`, `UpdateList`)
+
+Recipes and shopping lists will be stored in their respective DynamoDB tables. The homepage will display the 
+names of all recipes along with the option to edit, delete, navigate to a details page, or add the recipe to 
+the shopping list. The homepage will also have the option to create and save a new recipe to the table, and 
+navigate to the shopping list page.
 
 ## 6. API
 
