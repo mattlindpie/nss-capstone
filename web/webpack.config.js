@@ -1,4 +1,4 @@
-const path = require('path');
+    const path = require('path');
 const CopyPlugin = require("copy-webpack-plugin");
 const Dotenv = require('dotenv-webpack');
 
@@ -6,8 +6,9 @@ const Dotenv = require('dotenv-webpack');
 const dotenvFile = process.env.API_LOCATION ? `.env.${process.env.API_LOCATION}` : '.env';
 
 module.exports = {
-  plugins: [
+ plugins: [
     new CopyPlugin({
+
       patterns: [
         {
           from: "static_assets", to: "../",
@@ -24,6 +25,12 @@ module.exports = {
   },
   entry: {
     createPlaylist: path.resolve(__dirname, 'src', 'pages', 'createPlaylist.js'),
+    createEvent: path.resolve(__dirname, 'src', 'pages', 'createEvent.js'),
+    deleteEvent: path.resolve(__dirname, 'src', 'pages', 'deleteEvent.js'),
+    createGoal: path.resolve(__dirname, 'src', 'pages', 'createGoal.js'),
+    getGoalDetails: path.resolve(__dirname, 'src', 'pages', 'getGoalDetails.js'),
+    updateGoal: path.resolve(__dirname, 'src', 'pages', 'updateGoal.js'),
+    getAllGoalsSummary: path.resolve(__dirname, 'src', 'pages', 'getAllGoalsSummary.js'),
     viewPlaylist: path.resolve(__dirname, 'src', 'pages', 'viewPlaylist.js'),
     searchPlaylists: path.resolve(__dirname, 'src', 'pages', 'searchPlaylists.js'),
   },
@@ -41,5 +48,6 @@ module.exports = {
       // overlay shows a full-screen overlay in the browser when there are js compiler errors or warnings
       overlay: true,
     },
+
   }
 }

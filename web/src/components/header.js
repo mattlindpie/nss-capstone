@@ -1,4 +1,4 @@
-import MusicPlaylistClient from '../api/musicPlaylistClient';
+import MomentumClient from '../api/momentumClient';
 import BindingClass from "../util/bindingClass";
 
 /**
@@ -14,7 +14,7 @@ export default class Header extends BindingClass {
         ];
         this.bindClassMethods(methodsToBind, this);
 
-        this.client = new MusicPlaylistClient();
+        this.client = new MomentumClient();
     }
 
     /**
@@ -35,7 +35,7 @@ export default class Header extends BindingClass {
         const homeButton = document.createElement('a');
         homeButton.classList.add('header_home');
         homeButton.href = 'index.html';
-        homeButton.innerText = 'Playlists';
+        homeButton.innerText = 'Momentum';
 
         const siteTitle = document.createElement('div');
         siteTitle.classList.add('site-title');
@@ -74,6 +74,8 @@ export default class Header extends BindingClass {
         button.addEventListener('click', async () => {
             await clickHandler();
         });
+
+
 
         return button;
     }

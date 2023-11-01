@@ -2,12 +2,12 @@
     /* css variables: https://developer.mozilla.org/en-US/docs/Web/CSS/var */
     --primary-color: #5D5E5E;
     --secondary-color: #ffffff;
-    --tertiary-color: #F5881F;
+    --tertiary-color: #100387;
     --error-color: #EE3A23;
 }
 
 .background {
-    background-color: #8A8C8F;
+    background-color: #c0d2ee;
     margin: 0;
     counter-reset: section;
     font-family: "Helvetica Neue",Helvetica,sans-serif;
@@ -32,11 +32,12 @@
   font-weight: bold;
   text-decoration: none;
   cursor: pointer;
+  margin-right: 10px; /* Add spacing between buttons if needed */
 }
 
 .button-group {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 .header_home {
@@ -134,4 +135,16 @@ th {
 a {
     color: var(--tertiary-color);
     text-decoration: none;
+}
+
+.last-row {
+    border-top: 2px solid #999; /* Creates a line-through effect at the bottom */
+    color: #999; 
+    text-indent: 30px; 
+    text-decoration: line-through;
+}
+
+.hide-zero {
+    color: #ccc; /* Light gray color */
+    font-weight: 300; /* Thin font weight */
 }
