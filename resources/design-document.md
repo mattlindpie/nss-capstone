@@ -26,19 +26,19 @@ U2. As a customer, I want to retrieve a specific recipe
 
 U3. As a customer, I want to be able to update a recipe with new values
 
-U4. As a customer, I want to create a list of ingredients that I can delete individual items from.
+U4. As a customer, I want to create a shopping list, with ingredients from chosen recipes, that I can delete individual items from.
 
-U5. As a customer, I want variable units of measurement
+U5. As a customer, I want to be able to select different units of measurement for a specific ingredient (or recipe)
 
-U6. As a customer, I want to be able to change amount of ingredients based on how many servings I want
+U6. As a customer, I want to be able to change amount of ingredients based on how many servings I want to make of a given recipe
 
-U7. As a customer, I want to sort recipes based on a certain ingredient
+U7. As a customer, I want to filter recipes based on a certain ingredient
 
 U8. As a customer, I want to schedule meals ahead of time
 
 U9. As a customer, I want to pull recipes within a certain range of calories
 
-U10. As a customer, I want to compare recipes
+U10. As a customer, I want to compare recipes to see differences in ingredients and quantities
 
 U11. As a customer, I want to save past lists
 
