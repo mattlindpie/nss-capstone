@@ -365,22 +365,18 @@ Resources:
           KeyType: "RANGE"
       BillingMode: "PAY_PER_REQUEST"
       TableName: "recipes"
-#
-#  AlbumTracksTable:
-#    Type: AWS::DynamoDB::Table
-#    Properties:
-#      AttributeDefinitions:
-#        - AttributeName: "asin"
-#          AttributeType: "S"
-#        - AttributeName: "track_number"
-#          AttributeType: "N"
-#      KeySchema:
-#        - AttributeName: "asin"
-#          KeyType: "HASH"
-#        - AttributeName: "track_number"
-#          KeyType: "RANGE"
-#      BillingMode: "PAY_PER_REQUEST"
-#      TableName: "album_tracks"
+
+  ShoppingListTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: "userId"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "userId"
+          KeyType: "HASH"
+      BillingMode: "PAY_PER_REQUEST"
+      TableName: "shoppingLists"
 
 #-----------------------------------------------------
 # The outputs defined below will be printed
