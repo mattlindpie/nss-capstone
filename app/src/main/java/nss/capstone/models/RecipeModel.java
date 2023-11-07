@@ -4,6 +4,7 @@ import nss.capstone.dynamodb.models.Ingredient;
 import org.apache.commons.lang3.builder.Builder;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class RecipeModel {
@@ -11,11 +12,11 @@ public class RecipeModel {
     private final String userId;
     private final String recipeName;
     private final Integer servings;
-    private final String recipeSteps;
+    private final Map<Integer, String> recipeSteps;
     private final List<Ingredient> ingredients;
     private final Integer calories;
 
-    public RecipeModel(String userId, String recipeName, Integer servings, String recipeSteps,
+    public RecipeModel(String userId, String recipeName, Integer servings, Map<Integer, String> recipeSteps,
                        List<Ingredient> ingredients, Integer calories) {
         this.userId = userId;
         this.recipeName = recipeName;
@@ -37,7 +38,7 @@ public class RecipeModel {
         return servings;
     }
 
-    public String getRecipeSteps() {
+    public Map<Integer, String> getRecipeSteps() {
         return recipeSteps;
     }
 
@@ -88,7 +89,7 @@ public class RecipeModel {
         private String userId;
         private String recipeName;
         private Integer servings;
-        private String recipeSteps;
+        private Map<Integer, String> recipeSteps;
         private List<Ingredient> ingredients;
         private Integer calories;
 
@@ -107,7 +108,7 @@ public class RecipeModel {
             return this;
         }
 
-        public RecipeModel.Builder withRecipeSteps(String recipeSteps) {
+        public RecipeModel.Builder withRecipeSteps(Map<Integer, String> recipeSteps) {
             this.recipeSteps = recipeSteps;
             return this;
         }

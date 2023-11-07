@@ -1,10 +1,9 @@
 package nss.capstone.dynamodb.models;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBRangeKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
+import com.amazonaws.services.dynamodbv2.datamodeling.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +45,10 @@ public class Recipe {
 
     @DynamoDBAttribute(attributeName = "steps")
     public Map<Integer, String> getRecipeSteps() {
-        return recipeSteps;
+        if(recipeSteps == null) {
+            return null;
+        }
+        return new HashMap<>(recipeSteps);
     }
 
     public void setRecipeSteps(Map<Integer, String> recipeSteps) {
@@ -55,7 +57,10 @@ public class Recipe {
 
     @DynamoDBAttribute(attributeName = "ingredients")
     public List<Ingredient> getIngredients() {
-        return ingredients;
+        if(ingredients == null) {
+            return null;
+        }
+        return new ArrayList<>(ingredients);
     }
 
     public void setIngredients(List<Ingredient> ingredients) {

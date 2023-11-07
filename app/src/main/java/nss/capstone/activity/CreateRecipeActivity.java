@@ -2,7 +2,10 @@ package nss.capstone.activity;
 
 import nss.capstone.activity.requests.CreateRecipeRequest;
 import nss.capstone.activity.results.CreateRecipeResult;
+import nss.capstone.converters.ModelConverter;
 import nss.capstone.dynamodb.RecipeDao;
+import nss.capstone.dynamodb.models.Recipe;
+import nss.capstone.models.RecipeModel;
 
 import javax.inject.Inject;
 
@@ -16,6 +19,18 @@ public class CreateRecipeActivity {
     }
 
     public CreateRecipeResult handleRequest(CreateRecipeRequest request) {
-        
+        Recipe newRecipe = new Recipe();
+        newRecipe.setUserId(request.getUserId());
+        newRecipe.setRecipeName(request.getRecipeName());
+        newRecipe.setServings(request.getServings());
+        newRecipe.setRecipeSteps(request.getRecipeSteps());
+        newRecipe.setIngredients(request.getIngredients());
+        newRecipe.setCalories(request.getCalories());
+
+        RecipeModel recipeModel = new ModelConverter().toRecipeModel(newRecipe);
+
+        return CreateRecipeResult.builder()
+                .withRecipe(recipeModel)
+                .build();
     }
 }
