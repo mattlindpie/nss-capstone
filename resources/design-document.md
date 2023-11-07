@@ -121,11 +121,11 @@ Enum unitOfMeasurement
     - COUNT
 ```
 
-#### ListModel
+#### ShoppingListModel
 
 ```
 String userId
-Map<Ingredient, Integer(quantity)>
+Map<Ingredient, Integer(quantity)> shoppingListItems
 ```
 
 
@@ -197,16 +197,16 @@ Map<Ingredient, Integer(quantity)>
 
 ### Recipes
 ```
-S // userId - hashkey
+S // userId - hashkey/GSIHashkey
 S // recipeName - rangekey
 N // servings
 Set<S> // steps
 Set<S> // ingredients
-N // calories
+N // calories/GSIRangekey
 S // systemOfMeasurement
 ```
 
-### List
+### ShoppingList
 ```
 S // userId - hashkey
 Set<S> // listItems
