@@ -1,0 +1,107 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class CreateRecipeActivity {
+- RecipeDao recipeDao
++ handleRequest(CreateRecipeRequest) : CreateRecipeResult
+}
+class GetRecipeActivity {
+- RecipeDao recipeDao
++ handleRequest(GetRecipeRequest) : GetRecipeResult
+}
+class GetAllRecipesActivity {
+- RecipeDao recipeDao
++ handleRequest(GetAllRecipesRequest) : GetAllRecipeResult
+}
+class UpdateRecipeActivity {
+- RecipeDao recipeDao
++ handleRequest(UpdateRecipeRequest) : UpdateRecipeResult
+}
+class DeleteRecipeActivity {
+- RecipeDao recipeDao
++ handleRequest(DeleteRecipeRequest) : DeleteRecipeResult
+}
+
+class CreateListActivity {
+- ListDao listDao
++ handleRequest(CreateListRequest) : CreateListResult
+}
+class GetListActivity {
+- ListDao listDao
++ handleRequest(GetListRequest) : GetListResult
+}
+class UpdateListActivity {
+- ListDao listDao
++ handleRequest(UpdateListRequest) : UpdateListResult
+}
+class MeasurementConverter {}
+class RecipeNotFoundException {}
+
+class RecipeModel {
+- String userId
+- String recipeName
+- Integer servings
+- Map<Integer, String> recipeSteps
+- List<Ingredient> ingredients
+- Integer calories
+- Enum systemOfMeasurement
++ {static} RecipeModel.Builder
+}
+class IngredientModel {
+- String ingredientName
+- Double amount
+- Enum unitOfMeasurement
+}
+
+class ListModel {
+- String userId
+- Map<Ingredient, Integer>
++ {static} ListModel.Builder
+}
+
+class RecipeDao {
+- DynamoDBMapper mapper
++ createRecipe(Recipe recipe) : RecipeModel
++ getRecipe(String userId, String recipeName) : RecipeModel
++ getRecipes(String userId) : List<Recipe>
++ updateRecipe(Recipe recipe) : RecipeModel
++ deleteRecipe(Recipe recipe)
+}
+class ListDao {
+DynamoDBMapper mapper
++ createList() : ListModel
++ getList() : ListModel
++ updateList() : ListModel
+}
+
+class DynamoDB {}
+
+enum UnitOfMeasurement {
+FLUID_OUNCES
+CUPS
+TEASPOONS
+TABLESPOONS
+GRAMS
+MILLIGRAMS
+MILLILITERS
+COUNT
+}
+enum SystemOfMeasurement {
+METRIC
+IMPERIAL
+}
+
+CreateRecipeActivity --|> RecipeDao
+UpdateRecipeActivity --|> RecipeDao
+DeleteRecipeActivity --|> RecipeDao
+GetRecipeActivity --|> RecipeDao
+GetAllRecipesActivity --|> RecipeDao
+CreateListActivity --|> ListDao
+GetListActivity --|> ListDao
+UpdateListActivity --|> ListDao
+RecipeDao --|> DynamoDB
+ListDao --|> DynamoDB
+RecipeDao --* RecipeModel
+RecipeModel -- IngredientModel
+ListDao --* ListModel
+@enduml
