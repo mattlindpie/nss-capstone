@@ -1,5 +1,6 @@
 package nss.capstone.lambda;
 
+import nss.capstone.dependency.DaggerServiceComponent;
 import nss.capstone.dependency.ServiceComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

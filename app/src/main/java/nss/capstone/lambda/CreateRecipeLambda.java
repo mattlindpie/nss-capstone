@@ -1,6 +1,5 @@
 package nss.capstone.lambda;
 
-import com.amazonaws.Request;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import nss.capstone.activity.requests.CreateRecipeRequest;
@@ -15,6 +14,12 @@ public class CreateRecipeLambda extends LambdaActivityRunner<CreateRecipeRequest
                     CreateRecipeRequest unauthenticatedRequest = input.fromBody(CreateRecipeRequest.class);
                     return input.fromUserClaims(claims ->
                             CreateRecipeRequest.builder()
+                                    .withUserId(claims.get("email"))
+                                    .withRecipeName(unauthenticatedRequest.getRecipeName())
+                                    .withIngredients(unauthenticatedRequest.getIngredients())
+                                    .withRecipeSteps(unauthenticatedRequest.getRecipeSteps())
+                                    .withServings(unauthenticatedRequest.getServings())
+                                    .withCalories(unauthenticatedRequest.getCalories())
                                     .build());
 
                     },

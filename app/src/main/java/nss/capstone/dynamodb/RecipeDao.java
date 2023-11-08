@@ -16,7 +16,7 @@ public class RecipeDao {
         this.mapper = mapper;
     }
 
-    public Recipe createRecipe(Recipe recipe) {
+    public Recipe saveRecipe(Recipe recipe) {
         this.mapper.save(recipe);
         return recipe;
     }
