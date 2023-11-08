@@ -26,6 +26,7 @@ public class CreateRecipeActivity {
         newRecipe.setRecipeSteps(request.getRecipeSteps());
         newRecipe.setIngredients(request.getIngredients());
         newRecipe.setCalories(request.getCalories());
+        recipeDao.saveRecipe(newRecipe);
 
         RecipeModel recipeModel = new ModelConverter().toRecipeModel(newRecipe);
 

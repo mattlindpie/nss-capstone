@@ -1,4 +1,4 @@
-import MomentumClient from '../api/momentumClient';
+import PortionPerfectClient from '../api/portionPerfectClient';
 import BindingClass from "../util/bindingClass";
 
 /**
@@ -14,7 +14,7 @@ export default class Header extends BindingClass {
         ];
         this.bindClassMethods(methodsToBind, this);
 
-        this.client = new MomentumClient();
+        this.client = new PortionPerfectClient();
     }
 
     /**
@@ -35,7 +35,7 @@ export default class Header extends BindingClass {
         const homeButton = document.createElement('a');
         homeButton.classList.add('header_home');
         homeButton.href = 'index.html';
-        homeButton.innerText = 'Momentum';
+        homeButton.innerText = 'Portion Perfect';
 
         const siteTitle = document.createElement('div');
         siteTitle.classList.add('site-title');
