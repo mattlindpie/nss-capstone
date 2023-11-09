@@ -12,7 +12,7 @@ public class Recipe {
     private String userId;
     private String recipeName;
     private Integer servings;
-    private Map<Integer, String> recipeSteps;
+//    private Map<Integer, String> recipeSteps;
     private List<Ingredient> ingredients;
     private Integer calories;
 
@@ -43,17 +43,17 @@ public class Recipe {
         this.servings = servings;
     }
 
-    @DynamoDBAttribute(attributeName = "steps")
-    public Map<Integer, String> getRecipeSteps() {
-        if(recipeSteps == null) {
-            return null;
-        }
-        return new HashMap<>(recipeSteps);
-    }
+//    @DynamoDBAttribute(attributeName = "steps")
+//    public Map<Integer, String> getRecipeSteps() {
+//        if(recipeSteps == null) {
+//            return null;
+//        }
+//        return new HashMap<>(recipeSteps);
+//    }
 
-    public void setRecipeSteps(Map<Integer, String> recipeSteps) {
-        this.recipeSteps = recipeSteps;
-    }
+//    public void setRecipeSteps(Map<Integer, String> recipeSteps) {
+//        this.recipeSteps = recipeSteps;
+//    }
 
     @DynamoDBAttribute(attributeName = "ingredients")
     public List<Ingredient> getIngredients() {

@@ -82,7 +82,6 @@ export default class PortionPerfectClient extends BindingClass {
             const response = await this.axiosClient.post(`recipes`, {
                 recipeName: recipeName,
                 servings: servings,
-                recipeSteps: recipeSteps,
                 ingredients: ingredients,
                 calories: calories
             }, {

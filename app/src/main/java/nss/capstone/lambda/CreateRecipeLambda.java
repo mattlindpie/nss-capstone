@@ -17,7 +17,7 @@ public class CreateRecipeLambda extends LambdaActivityRunner<CreateRecipeRequest
                                     .withRecipeName(unauthenticatedRequest.getRecipeName())
                                     .withServings(unauthenticatedRequest.getServings())
                                     .withIngredients(unauthenticatedRequest.getIngredients())
-                                    .withRecipeSteps(unauthenticatedRequest.getRecipeSteps())
+//                                    .withRecipeSteps(unauthenticatedRequest.getRecipeSteps())
                                     .withCalories(unauthenticatedRequest.getCalories())
                                     .withUserId(claims.get("email"))
                                     .build());

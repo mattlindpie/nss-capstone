@@ -13,17 +13,16 @@ public class CreateRecipeRequest {
     private final String userId;
     private final String recipeName;
     private final Integer servings;
-    private final Map<Integer, String> recipeSteps;
+//    private final Map<Integer, String> recipeSteps;
     private final List<Ingredient> ingredients;
     private final Integer calories;
 
-    public CreateRecipeRequest(String userId, String recipeName, Integer servings,
-                               Map<Integer, String> recipeSteps, List<Ingredient> ingredients,
+    public CreateRecipeRequest(String userId, String recipeName, Integer servings, List<Ingredient> ingredients,
                                Integer calories) {
         this.userId = userId;
         this.recipeName = recipeName;
         this.servings = servings;
-        this.recipeSteps = recipeSteps;
+//        this.recipeSteps = recipeSteps;
         this.ingredients = ingredients;
         this.calories = calories;
     }
@@ -40,9 +39,9 @@ public class CreateRecipeRequest {
         return servings;
     }
 
-    public Map<Integer, String> getRecipeSteps() {
-        return recipeSteps;
-    }
+//    public Map<Integer, String> getRecipeSteps() {
+//        return recipeSteps;
+//    }
 
     public List<Ingredient> getIngredients() {
         return ingredients;
@@ -58,7 +57,6 @@ public class CreateRecipeRequest {
                 "userId='" + userId + '\'' +
                 ", recipeName='" + recipeName + '\'' +
                 ", servings=" + servings +
-                ", recipeSteps=" + recipeSteps +
                 ", ingredients=" + ingredients +
                 ", calories=" + calories +
                 '}';
@@ -75,7 +73,7 @@ public class CreateRecipeRequest {
         private String userId;
         private String recipeName;
         private Integer servings;
-        private Map<Integer, String> recipeSteps;
+//        private Map<Integer, String> recipeSteps;
         private List<Ingredient> ingredients;
         private Integer calories;
 
@@ -94,10 +92,10 @@ public class CreateRecipeRequest {
             return this;
         }
 
-        public CreateRecipeRequest.Builder withRecipeSteps(Map<Integer, String> recipeSteps) {
-            this.recipeSteps = recipeSteps;
-            return this;
-        }
+//        public CreateRecipeRequest.Builder withRecipeSteps(Map<Integer, String> recipeSteps) {
+//            this.recipeSteps = recipeSteps;
+//            return this;
+//        }
 
         public CreateRecipeRequest.Builder withIngredients(List<Ingredient> ingredients) {
             this.ingredients = ingredients;
@@ -110,7 +108,7 @@ public class CreateRecipeRequest {
         }
 
         public CreateRecipeRequest build() {
-            return new CreateRecipeRequest(userId, recipeName, servings, recipeSteps, ingredients, calories);
+            return new CreateRecipeRequest(userId, recipeName, servings, ingredients, calories);
         }
     }
 }
