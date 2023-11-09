@@ -1,11 +1,13 @@
 package nss.capstone.activity.requests;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import nss.capstone.dynamodb.models.Ingredient;
 
 import java.util.List;
 import java.util.Map;
 
+@JsonDeserialize(builder = CreateRecipeRequest.Builder.class)
 public class CreateRecipeRequest {
 
     private final String userId;
@@ -62,8 +64,9 @@ public class CreateRecipeRequest {
                 '}';
     }
 
-    public static CreateRecipeRequest.Builder builder() {
-        return new CreateRecipeRequest.Builder();
+    //Checkstyle:OFF:Builder
+    public static Builder builder() {
+        return new Builder();
     }
 
     @JsonPOJOBuilder
