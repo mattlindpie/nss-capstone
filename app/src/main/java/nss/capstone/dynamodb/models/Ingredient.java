@@ -1,5 +1,7 @@
 package nss.capstone.dynamodb.models;
 
+import nss.capstone.utils.UnitOfMeasurement;
+
 import java.util.List;
 import java.util.Map;
 
@@ -7,7 +9,7 @@ public class Ingredient {
 
     private String ingredientName;
     private Double amount;
-    private Enum unitOfMeasurement;
+    private UnitOfMeasurement unitOfMeasurement;
 
     public String getIngredientName() {
         return ingredientName;
@@ -29,7 +31,7 @@ public class Ingredient {
         return unitOfMeasurement;
     }
 
-    public void setUnitOfMeasurement(Enum unitOfMeasurement) {
+    public void setUnitOfMeasurement(UnitOfMeasurement unitOfMeasurement) {
         this.unitOfMeasurement = unitOfMeasurement;
     }
 }

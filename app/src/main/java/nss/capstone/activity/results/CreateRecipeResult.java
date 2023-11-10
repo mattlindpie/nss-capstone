@@ -27,15 +27,15 @@ public class CreateRecipeResult {
     }
 
     public static class Builder {
-        private RecipeModel recipe;
+        private RecipeModel recipeModel;
 
-        public Builder withRecipe(RecipeModel recipe) {
-            this.recipe = recipe;
+        public Builder withRecipe(RecipeModel recipeModel) {
+            this.recipeModel = recipeModel;
             return this;
         }
 
         public CreateRecipeResult build() {
-            return new CreateRecipeResult(recipe);
+            return new CreateRecipeResult(recipeModel);
         }
 
     }
