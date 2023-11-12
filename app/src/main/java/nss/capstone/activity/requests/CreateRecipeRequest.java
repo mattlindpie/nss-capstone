@@ -13,7 +13,7 @@ public class CreateRecipeRequest {
     private final String userId;
     private final String recipeName;
     private final Integer servings;
-////    private final Map<Integer, String> recipeSteps;
+//    private final Map<Integer, String> recipeSteps;
     private final List<Ingredient> ingredients;
     private final Integer calories;
 

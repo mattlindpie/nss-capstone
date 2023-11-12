@@ -7,26 +7,19 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 public class GetAllRecipesRequest {
 
     private String userId;
-    private String recipeName;
-
-    private GetAllRecipesRequest(String userId, String recipeName) {
+    private GetAllRecipesRequest(String userId) {
         this.userId = userId;
-        this.recipeName = recipeName;
     }
 
     public String getUserId() {
         return userId;
     }
 
-    public String getRecipeName() {
-        return recipeName;
-    }
 
     @Override
     public String toString() {
         return "GetAllRecipesRequest{" +
                 "userId='" + userId + '\'' +
-                ", recipeName='" + recipeName + '\'' +
                 '}';
     }
 
@@ -37,20 +30,15 @@ public class GetAllRecipesRequest {
     @JsonPOJOBuilder
     public static class Builder {
         private String userId;
-        private String recipeName;
 
         public GetAllRecipesRequest.Builder withUserId(String userId) {
             this.userId = userId;
             return this;
         }
 
-        public GetAllRecipesRequest.Builder withRecipeName(String recipeName) {
-            this.recipeName = recipeName;
-            return this;
-        }
 
         public GetAllRecipesRequest build() {
-            return new GetAllRecipesRequest(userId, recipeName);
+            return new GetAllRecipesRequest(userId);
         }
     }
 }

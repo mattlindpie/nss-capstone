@@ -9,7 +9,7 @@ public class Ingredient {
 
     private String ingredientName;
     private Double amount;
-    private UnitOfMeasurement unitOfMeasurement;
+    private String unit;
 
     public String getIngredientName() {
         return ingredientName;
@@ -27,11 +27,13 @@ public class Ingredient {
         this.amount = amount;
     }
 
-    public Enum getUnitOfMeasurement() {
-        return unitOfMeasurement;
+    public String getUnitOfMeasurement() {
+        return unit;
     }
 
-    public void setUnitOfMeasurement(UnitOfMeasurement unitOfMeasurement) {
-        this.unitOfMeasurement = unitOfMeasurement;
+    public void setUnitOfMeasurement(String unit) {
+        this.unit = unit;
     }
+
+
 }

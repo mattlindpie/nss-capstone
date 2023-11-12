@@ -1,11 +1,9 @@
 package nss.capstone.dynamodb.models;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import nss.capstone.converters.IngredientConverter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @DynamoDBTable(tableName = "recipes")
 public class Recipe {
@@ -55,6 +53,7 @@ public class Recipe {
 //        this.recipeSteps = recipeSteps;
 //    }
 
+    @DynamoDBTypeConverted(converter = IngredientConverter.class)
     @DynamoDBAttribute(attributeName = "ingredients")
     public List<Ingredient> getIngredients() {
         if(ingredients == null) {
@@ -74,5 +73,22 @@ public class Recipe {
 
     public void setCalories(Integer calories) {
         this.calories = calories;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Recipe recipe = (Recipe) o;
+        return Objects.equals(userId, recipe.userId)
+                && Objects.equals(recipeName, recipe.recipeName)
+                && Objects.equals(servings, recipe.servings)
+                && Objects.equals(ingredients, recipe.ingredients)
+                && Objects.equals(calories, recipe.calories);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, recipeName, servings, ingredients, calories);
     }
 }
