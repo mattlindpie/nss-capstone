@@ -12,7 +12,7 @@
 *.iml
 .aws-sam
 .vscode
-
+/data.json
 # Ignore Gradle project-specific cache directory
 .gradle
 
