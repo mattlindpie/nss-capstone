@@ -17,7 +17,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.openMocks;
 
-class CreateRecipeRequestTest {
+
+class CreateRecipeActivityTest {
 
     @Mock
     private RecipeDao recipeDao;
