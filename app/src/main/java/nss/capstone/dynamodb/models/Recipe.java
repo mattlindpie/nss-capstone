@@ -1,18 +1,16 @@
 package nss.capstone.dynamodb.models;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.*;
+import nss.capstone.converters.IngredientConverter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @DynamoDBTable(tableName = "recipes")
 public class Recipe {
     private String userId;
     private String recipeName;
     private Integer servings;
-    private Map<Integer, String> recipeSteps;
+    private List<String> recipeSteps;
     private List<Ingredient> ingredients;
     private Integer calories;
 
@@ -44,17 +42,18 @@ public class Recipe {
     }
 
     @DynamoDBAttribute(attributeName = "steps")
-    public Map<Integer, String> getRecipeSteps() {
+    public List<String> getRecipeSteps() {
         if(recipeSteps == null) {
             return null;
         }
-        return new HashMap<>(recipeSteps);
+        return new ArrayList<>(recipeSteps);
     }
 
-    public void setRecipeSteps(Map<Integer, String> recipeSteps) {
+    public void setRecipeSteps(List<String> recipeSteps) {
         this.recipeSteps = recipeSteps;
     }
 
+    @DynamoDBTypeConverted(converter = IngredientConverter.class)
     @DynamoDBAttribute(attributeName = "ingredients")
     public List<Ingredient> getIngredients() {
         if(ingredients == null) {
@@ -74,5 +73,23 @@ public class Recipe {
 
     public void setCalories(Integer calories) {
         this.calories = calories;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Recipe recipe = (Recipe) o;
+        return Objects.equals(userId, recipe.userId)
+                && Objects.equals(recipeName, recipe.recipeName)
+                && Objects.equals(servings, recipe.servings)
+                && Objects.equals(recipeSteps, recipe.recipeSteps)
+                && Objects.equals(ingredients, recipe.ingredients)
+                && Objects.equals(calories, recipe.calories);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, recipeName, recipeSteps, servings, ingredients, calories);
     }
 }

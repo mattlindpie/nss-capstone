@@ -12,11 +12,11 @@ public class RecipeModel {
     private final String userId;
     private final String recipeName;
     private final Integer servings;
-    private final Map<Integer, String> recipeSteps;
+    private final List<String> recipeSteps;
     private final List<Ingredient> ingredients;
     private final Integer calories;
 
-    public RecipeModel(String userId, String recipeName, Integer servings, Map<Integer, String> recipeSteps,
+    public RecipeModel(String userId, String recipeName, Integer servings, List<String> recipeSteps,
                        List<Ingredient> ingredients, Integer calories) {
         this.userId = userId;
         this.recipeName = recipeName;
@@ -38,7 +38,7 @@ public class RecipeModel {
         return servings;
     }
 
-    public Map<Integer, String> getRecipeSteps() {
+    public List<String> getRecipeSteps() {
         return recipeSteps;
     }
 
@@ -89,7 +89,7 @@ public class RecipeModel {
         private String userId;
         private String recipeName;
         private Integer servings;
-        private Map<Integer, String> recipeSteps;
+        private List<String> recipeSteps;
         private List<Ingredient> ingredients;
         private Integer calories;
 
@@ -108,7 +108,7 @@ public class RecipeModel {
             return this;
         }
 
-        public RecipeModel.Builder withRecipeSteps(Map<Integer, String> recipeSteps) {
+        public RecipeModel.Builder withRecipeSteps(List<String> recipeSteps) {
             this.recipeSteps = recipeSteps;
             return this;
         }

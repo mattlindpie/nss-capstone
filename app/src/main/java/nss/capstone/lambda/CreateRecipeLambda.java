@@ -14,12 +14,12 @@ public class CreateRecipeLambda extends LambdaActivityRunner<CreateRecipeRequest
                     CreateRecipeRequest unauthenticatedRequest = input.fromBody(CreateRecipeRequest.class);
                     return input.fromUserClaims(claims ->
                             CreateRecipeRequest.builder()
-                                    .withUserId(claims.get("email"))
                                     .withRecipeName(unauthenticatedRequest.getRecipeName())
+                                    .withServings(unauthenticatedRequest.getServings())
                                     .withIngredients(unauthenticatedRequest.getIngredients())
                                     .withRecipeSteps(unauthenticatedRequest.getRecipeSteps())
-                                    .withServings(unauthenticatedRequest.getServings())
                                     .withCalories(unauthenticatedRequest.getCalories())
+                                    .withUserId(claims.get("email"))
                                     .build());
 
                     },

@@ -2,6 +2,7 @@ package nss.capstone.dependency;
 
 import dagger.Component;
 import nss.capstone.activity.CreateRecipeActivity;
+import nss.capstone.activity.GetAllRecipesActivity;
 
 import javax.inject.Singleton;
 
@@ -14,4 +15,6 @@ public interface ServiceComponent {
      * @return CreateRecipeActivity
      */
     CreateRecipeActivity provideCreateRecipeActivity();
+
+    GetAllRecipesActivity provideGetAllRecipesActivity();
 }

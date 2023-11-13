@@ -5,7 +5,6 @@ import nss.capstone.models.RecipeModel;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ModelConverterTest {
@@ -18,7 +17,7 @@ class ModelConverterTest {
         recipe.setUserId("validId");
         recipe.setRecipeName("validName");
         recipe.setIngredients(new ArrayList<>());
-        recipe.setRecipeSteps(new HashMap<>());
+        recipe.setRecipeSteps(new ArrayList<>());
         recipe.setServings(4);
         recipe.setCalories(100);
 
@@ -31,5 +30,4 @@ class ModelConverterTest {
         assertEquals(recipe.getCalories(), recipeModel.getCalories());
 
     }
-
 }

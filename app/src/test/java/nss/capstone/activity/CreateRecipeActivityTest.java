@@ -10,14 +10,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.openMocks;
+
 
 class CreateRecipeActivityTest {
 
@@ -38,7 +37,7 @@ class CreateRecipeActivityTest {
         String userId = "validId";
         String recipeName = "validName";
         List<Ingredient> ingredients = new ArrayList<>();
-        Map<Integer, String> recipeSteps = new HashMap<>();
+        List<String> recipeSteps = new ArrayList<>();
         Integer servings = 0;
         Integer calories = 0;
 
@@ -61,5 +60,4 @@ class CreateRecipeActivityTest {
         assertEquals(servings, result.getRecipe().getCalories());
         assertEquals(calories, result.getRecipe().getCalories());
     }
-
 }

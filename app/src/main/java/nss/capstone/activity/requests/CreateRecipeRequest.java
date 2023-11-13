@@ -1,23 +1,23 @@
 package nss.capstone.activity.requests;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import nss.capstone.dynamodb.models.Ingredient;
 
 import java.util.List;
 import java.util.Map;
 
+@JsonDeserialize(builder = CreateRecipeRequest.Builder.class)
 public class CreateRecipeRequest {
 
     private final String userId;
     private final String recipeName;
     private final Integer servings;
-    private final Map<Integer, String> recipeSteps;
+    private final List<String> recipeSteps;
     private final List<Ingredient> ingredients;
     private final Integer calories;
 
-    public CreateRecipeRequest(String userId, String recipeName, Integer servings,
-                               Map<Integer, String> recipeSteps, List<Ingredient> ingredients,
-                               Integer calories) {
+    public CreateRecipeRequest(String userId, String recipeName, Integer servings, List<String> recipeSteps, List<Ingredient> ingredients, Integer calories) {
         this.userId = userId;
         this.recipeName = recipeName;
         this.servings = servings;
@@ -38,7 +38,7 @@ public class CreateRecipeRequest {
         return servings;
     }
 
-    public Map<Integer, String> getRecipeSteps() {
+    public List<String> getRecipeSteps() {
         return recipeSteps;
     }
 
@@ -56,14 +56,14 @@ public class CreateRecipeRequest {
                 "userId='" + userId + '\'' +
                 ", recipeName='" + recipeName + '\'' +
                 ", servings=" + servings +
-                ", recipeSteps=" + recipeSteps +
                 ", ingredients=" + ingredients +
                 ", calories=" + calories +
                 '}';
     }
 
-    public static CreateRecipeRequest.Builder builder() {
-        return new CreateRecipeRequest.Builder();
+    //Checkstyle:OFF:Builder
+    public static Builder builder() {
+        return new Builder();
     }
 
     @JsonPOJOBuilder
@@ -72,7 +72,7 @@ public class CreateRecipeRequest {
         private String userId;
         private String recipeName;
         private Integer servings;
-        private Map<Integer, String> recipeSteps;
+        private List<String> recipeSteps;
         private List<Ingredient> ingredients;
         private Integer calories;
 
@@ -91,7 +91,7 @@ public class CreateRecipeRequest {
             return this;
         }
 
-        public CreateRecipeRequest.Builder withRecipeSteps(Map<Integer, String> recipeSteps) {
+        public CreateRecipeRequest.Builder withRecipeSteps(List<String> recipeSteps) {
             this.recipeSteps = recipeSteps;
             return this;
         }
