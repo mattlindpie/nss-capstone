@@ -12,16 +12,16 @@ public class RecipeModel {
     private final String userId;
     private final String recipeName;
     private final Integer servings;
-//    private final Map<Integer, String> recipeSteps;
+    private final List<String> recipeSteps;
     private final List<Ingredient> ingredients;
     private final Integer calories;
 
-    public RecipeModel(String userId, String recipeName, Integer servings,
+    public RecipeModel(String userId, String recipeName, Integer servings, List<String> recipeSteps,
                        List<Ingredient> ingredients, Integer calories) {
         this.userId = userId;
         this.recipeName = recipeName;
         this.servings = servings;
-//        this.recipeSteps = recipeSteps;
+        this.recipeSteps = recipeSteps;
         this.ingredients = ingredients;
         this.calories = calories;
     }
@@ -38,9 +38,9 @@ public class RecipeModel {
         return servings;
     }
 
-//    public Map<Integer, String> getRecipeSteps() {
-//        return recipeSteps;
-//    }
+    public List<String> getRecipeSteps() {
+        return recipeSteps;
+    }
 
     public List<Ingredient> getIngredients() {
         return ingredients;
@@ -58,14 +58,14 @@ public class RecipeModel {
         return Objects.equals(userId, that.userId) &&
                 Objects.equals(recipeName, that.recipeName) &&
                 Objects.equals(servings, that.servings) &&
-//                Objects.equals(recipeSteps, that.recipeSteps) &&
+                Objects.equals(recipeSteps, that.recipeSteps) &&
                 Objects.equals(ingredients, that.ingredients) &&
                 Objects.equals(calories, that.calories);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, recipeName, servings, ingredients, calories);
+        return Objects.hash(userId, recipeName, servings, recipeSteps, ingredients, calories);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class RecipeModel {
                 "userId='" + userId + '\'' +
                 ", recipeName='" + recipeName + '\'' +
                 ", servings=" + servings +
-//                ", recipeSteps=" + recipeSteps +
+                ", recipeSteps=" + recipeSteps +
                 ", ingredients=" + ingredients +
                 ", calories=" + calories +
                 '}';
@@ -89,7 +89,7 @@ public class RecipeModel {
         private String userId;
         private String recipeName;
         private Integer servings;
-//        private Map<Integer, String> recipeSteps;
+        private List<String> recipeSteps;
         private List<Ingredient> ingredients;
         private Integer calories;
 
@@ -108,10 +108,10 @@ public class RecipeModel {
             return this;
         }
 
-//        public RecipeModel.Builder withRecipeSteps(Map<Integer, String> recipeSteps) {
-//            this.recipeSteps = recipeSteps;
-//            return this;
-//        }
+        public RecipeModel.Builder withRecipeSteps(List<String> recipeSteps) {
+            this.recipeSteps = recipeSteps;
+            return this;
+        }
 
         public RecipeModel.Builder withIngredients(List<Ingredient> ingredients) {
             this.ingredients = ingredients;
@@ -124,7 +124,7 @@ public class RecipeModel {
         }
 
         public RecipeModel build() {
-            return new RecipeModel(userId, recipeName, servings, ingredients, calories);
+            return new RecipeModel(userId, recipeName, servings, recipeSteps, ingredients, calories);
         }
     }
 }

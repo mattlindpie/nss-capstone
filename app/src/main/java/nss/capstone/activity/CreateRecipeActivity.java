@@ -23,7 +23,7 @@ public class CreateRecipeActivity {
         newRecipe.setUserId(request.getUserId());
         newRecipe.setRecipeName(request.getRecipeName());
         newRecipe.setServings(request.getServings());
-//        newRecipe.setRecipeSteps(request.getRecipeSteps());
+        newRecipe.setRecipeSteps(request.getRecipeSteps());
         newRecipe.setIngredients(request.getIngredients());
         newRecipe.setCalories(request.getCalories());
         recipeDao.saveRecipe(newRecipe);

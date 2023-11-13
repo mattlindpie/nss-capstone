@@ -10,7 +10,7 @@ public class ModelConverter {
                 .withUserId(recipe.getUserId())
                 .withRecipeName(recipe.getRecipeName())
                 .withServings(recipe.getServings())
-//                .withRecipeSteps(recipe.getRecipeSteps())
+                .withRecipeSteps(recipe.getRecipeSteps())
                 .withIngredients(recipe.getIngredients())
                 .withCalories(recipe.getCalories())
                 .build();
