@@ -46,7 +46,7 @@ class CreateRecipe extends BindingClass {
         const calories = document.getElementById('calories').value;
 
 
-        const goal = await this.client.createRecipe(recipeName, servings, ingredients, recipeSteps, calories, (error) => {
+        const recipe = await this.client.createRecipe(recipeName, servings, ingredients, recipeSteps, calories, (error) => {
             createButton.innerText = origButtonText;
             errorMessageDisplay.innerText = `Error: ${error.message}`;
             errorMessageDisplay.classList.remove('hidden');
