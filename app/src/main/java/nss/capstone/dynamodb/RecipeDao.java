@@ -37,4 +37,9 @@ public class RecipeDao {
     public void deleteRecipe(Recipe recipe) {
         mapper.delete(recipe);
     }
+  
+    public Recipe getRecipe(String userId, String recipeName) {
+
+        return mapper.load(Recipe.class, userId, recipeName);
+    }
 }
