@@ -33,4 +33,8 @@ public class RecipeDao {
 
         return this.mapper.query(Recipe.class, queryExpression);
     }
+
+    public void deleteRecipe(Recipe recipe) {
+        mapper.delete(recipe);
+    }
 }

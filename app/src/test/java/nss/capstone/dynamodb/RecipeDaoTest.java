@@ -6,14 +6,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.openMocks;
 
 class RecipeDaoTest {
@@ -45,5 +41,14 @@ class RecipeDaoTest {
         recipeDao.getAllRecipes("userId");
 
         verify(mapper).query(any(), any());
+    }
+
+    @Test
+    public void deleteRecipe_callsMapper() {
+        Recipe recipe = new Recipe();
+
+        recipeDao.deleteRecipe(recipe);
+
+        verify(mapper).delete(recipe);
     }
 }
