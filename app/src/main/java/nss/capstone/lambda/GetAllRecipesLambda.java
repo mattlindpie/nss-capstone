@@ -5,7 +5,8 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import nss.capstone.activity.requests.GetAllRecipesRequest;
 import nss.capstone.activity.results.GetAllRecipesResult;
 
-public class GetAllRecipesLambda extends LambdaActivityRunner<GetAllRecipesRequest, GetAllRecipesResult>
+public class GetAllRecipesLambda
+        extends LambdaActivityRunner<GetAllRecipesRequest, GetAllRecipesResult>
         implements RequestHandler<AuthenticatedLambdaRequest<GetAllRecipesRequest>, LambdaResponse> {
 
     @Override
