@@ -26,6 +26,7 @@ module.exports = {
   entry: {
     createPlaylist: path.resolve(__dirname, 'src', 'pages', 'createPlaylist.js'),
     createRecipe: path.resolve(__dirname, 'src', 'pages', 'createRecipe.js'),
+    getAllRecipes: path.resolve(__dirname, 'src', 'pages', 'getAllRecipes.js'),
     deleteEvent: path.resolve(__dirname, 'src', 'pages', 'deleteEvent.js'),
     createGoal: path.resolve(__dirname, 'src', 'pages', 'createGoal.js'),
     getGoalDetails: path.resolve(__dirname, 'src', 'pages', 'getGoalDetails.js'),

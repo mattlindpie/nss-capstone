@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="assets/getAllRecipes.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body class="background">
+<header class="header" id="header"></header>
+<div class="card">
+    <h2>Your Recipes</h2>
+    <form class="card-content" id="create-recipe-form">
+        <p class="hidden error" id="error-message"> </p>
+        <p class="form-field">
+            <label>Recipe Name</label>
+            <input type="text" required class="validated-field" id="recipeName" autofocus>
+        </p>
+        <p class="form-field">
+            <label>Ingredients</label>
+            <input type="text" id="ingredients" class="validated-field">
+        </p>
+        <p class="form-field">
+            <label>Recipe Steps</label>
+            <input type="text" id="recipeSteps" class="validated-field">
+        </p>
+        <p class="form-field">
+            <label>Servings</label>
+            <input type="number" id="servings" class="validated-field">
+        </p>
+        <p class="form-field">
+            <label>Calories</label>
+            <input type="number" id="calories" class="validated-field">
+        </p>
+
+        <p>
+            <a href="#" class="button" id="createRecipe">Create Recipe</a>
+        </p>
+    </form>
+
+<div id='recipes-container'>
+    <div id='recipes-display'>
+        <table id='recipes-table'></table>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

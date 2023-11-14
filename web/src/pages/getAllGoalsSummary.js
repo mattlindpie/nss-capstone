@@ -1,4 +1,5 @@
-    import MomentumClient from '../api/momentumClient';
+    import PortionPerfectClient from '../api/portionPerfectClient';
+import MomentumClient from '../api/portionPerfectClient';
     import Header from '../components/header';
     import BindingClass from '../util/bindingClass';
     import DataStore from '../util/DataStore';
@@ -36,7 +37,7 @@
 
             this.header.addHeaderToPage();
 
-            this.client = new MomentumClient();
+            this.client = new PortionPerfectClient();
 
             this.loadGoals();
         }
@@ -56,6 +57,7 @@
 
         displayGoalSummary() {
             const goalList = this.dataStore.get(SEARCH_RESULTS_KEY);
+        
 
             const allGoalsContainer = document.getElementById('all-goals-container');
             const allGoalsDisplay = document.getElementById('all-goals-display');
