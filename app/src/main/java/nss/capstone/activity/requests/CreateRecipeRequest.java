@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import nss.capstone.dynamodb.models.Ingredient;
 
 import java.util.List;
-import java.util.Map;
 
 @JsonDeserialize(builder = CreateRecipeRequest.Builder.class)
 public class CreateRecipeRequest {
