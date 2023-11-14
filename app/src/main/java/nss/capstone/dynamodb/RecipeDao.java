@@ -33,4 +33,9 @@ public class RecipeDao {
 
         return this.mapper.query(Recipe.class, queryExpression);
     }
+
+    public Recipe getRecipe(String userId, String recipeName) {
+
+        return mapper.load(Recipe.class, userId, recipeName);
+    }
 }
