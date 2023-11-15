@@ -117,11 +117,11 @@ class GetAllRecipes extends BindingClass {
 
             deleteButton.className = 'button';
             deleteButton.addEventListener('click', async () => {
-                let deleteYN = confirm("Are you sure you want to delete this recipe?");
-                if (deleteYN === true) {
+                 let deleteYN = confirm("Are you sure you want to delete this recipe?");
+                 if (deleteYN === true) {
                     await this.client.deleteRecipe(recipeName);
-                    this.loadRecipes();
-                }
+                      this.loadRecipes();
+                 }
             });
             deleteButtonCell.appendChild(deleteButton);
             row.appendChild(deleteButtonCell);
