@@ -18,8 +18,16 @@ public class ListDao {
         this.mapper = mapper;
     }
 
-    public ShoppingList saveList(ShoppingList shoppingList) {
+    public ShoppingList saveList(List<String> ingredients, String userId) {
+        Map<String, Integer> shoppingListMap = new HashMap<>();
+        ingredients.stream()
+                .forEach(ingredient -> shoppingListMap.put(ingredient, 1));
+
+        ShoppingList shoppingList = new ShoppingList();
+        shoppingList.setShoppingListItems(shoppingListMap);
+        shoppingList.setUserId(userId);
         this.mapper.save(shoppingList);
+
         return shoppingList;
     }
 

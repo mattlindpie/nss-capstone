@@ -24,14 +24,14 @@ public class AddToShoppingListActivity {
 
     public AddToShoppingListResult handleRequest(AddToShoppingListRequest request) {
         List<String> ingredients = new ArrayList<>(request.getIngredientNames());
-        Map<String, Integer> shoppingListMap = new HashMap<>();
-        ingredients.stream()
-                .forEach(ingredient -> shoppingListMap.put(ingredient, 1));
-
-        ShoppingList shoppingList = new ShoppingList();
-        shoppingList.setShoppingListItems(shoppingListMap);
-        shoppingList.setUserId(request.getUserId());
-        shoppingListDao.saveList(shoppingList);
+        String userId = request.getUserId();
+//        Map<String, Integer> shoppingListMap = new HashMap<>();
+//        ingredients.stream()
+//                .forEach(ingredient -> shoppingListMap.put(ingredient, 1));
+//
+//        ShoppingList shoppingList = new ShoppingList();
+//        shoppingList.setShoppingListItems(shoppingListMap);
+        ShoppingList shoppingList = shoppingListDao.saveList(ingredients, userId);
 
         ShoppingListModel shoppingListModel = new ModelConverter().toShoppingListModel(shoppingList);
 
