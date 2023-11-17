@@ -36,3 +36,6 @@ public interface ServiceComponent {
      */
     GetRecipeActivity provideGetRecipeActivity();
 }
+
+
+
