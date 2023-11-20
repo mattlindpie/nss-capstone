@@ -16,7 +16,7 @@ const EMPTY_DATASTORE_STATE = {
 class GetRecipe extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['mount', 'getRecipe', 'displayRecipe', 'getHTMLForSearchResults', 'getIngredientsList', 'displayRecipeSteps'], this);
+        this.bindClassMethods(['mount', 'submit', 'getRecipe', 'displayRecipe', 'getHTMLForSearchResults', 'getIngredientsList', 'displayRecipeSteps'], this);
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
         this.dataStore.addChangeListener(this.displayRecipe);
@@ -27,9 +27,15 @@ class GetRecipe extends BindingClass {
      * Add the header to the page and load the PortionPerfectClient.
      */
     mount() {
+
+        document.getElementById('add-to-list-button').addEventListener('click', this.submit);
+
         this.header.addHeaderToPage();
 
         this.client = new PortionPerfectClient();
+
+        const searchCriteria = this.dataStore.get(SEARCH_CRITERIA_KEY);
+        const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY);
 
         const urlParams = new URLSearchParams(window.location.search);
         const recipeName = urlParams.get('recipeName');
@@ -48,6 +54,26 @@ class GetRecipe extends BindingClass {
                 } else {
                     this.dataStore.setState(EMPTY_DATASTORE_STATE);
                 }
+    }
+    
+    async submit(evt) {
+        evt.preventDefault();
+        const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY);
+
+        const ingredientList = searchResults.ingredients;
+        const ingredientNames = [];
+        ingredientList.forEach((ingredient) => {
+
+            const ingredientName = ingredient.ingredientName;
+            ingredientNames.push(ingredientName);
+
+        });
+
+        const shoppingList = await this.client.addToShoppingList(ingredientNames, (error) => {
+            createButton.innerText = origButtonText;
+        });
+        this.dataStore.set('shoppingList', shoppingList);
+
     }
 
     displayRecipe() {
@@ -157,6 +183,7 @@ class GetRecipe extends BindingClass {
 
         return container.outerHTML;
     }
+
 }
 
 const main = async () => {
