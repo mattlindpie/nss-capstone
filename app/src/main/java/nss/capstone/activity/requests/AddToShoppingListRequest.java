@@ -2,7 +2,6 @@ package nss.capstone.activity.requests;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import nss.capstone.lambda.AddToShoppingListLambda;
 
 import java.util.List;
 

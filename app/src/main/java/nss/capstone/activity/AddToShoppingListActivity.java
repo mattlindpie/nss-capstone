@@ -2,6 +2,7 @@ package nss.capstone.activity;
 
 import nss.capstone.activity.requests.AddToShoppingListRequest;
 import nss.capstone.activity.results.AddToShoppingListResult;
+
 import nss.capstone.converters.ModelConverter;
 import nss.capstone.dynamodb.ListDao;
 import nss.capstone.dynamodb.models.ShoppingList;
@@ -9,9 +10,7 @@ import nss.capstone.models.ShoppingListModel;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class AddToShoppingListActivity {
 

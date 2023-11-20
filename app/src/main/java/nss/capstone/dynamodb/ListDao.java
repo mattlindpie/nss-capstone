@@ -1,9 +1,7 @@
 package nss.capstone.dynamodb;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import nss.capstone.dynamodb.models.Ingredient;
 import nss.capstone.dynamodb.models.ShoppingList;
-import nss.capstone.models.ShoppingListModel;
 
 import javax.inject.Inject;
 import java.util.HashMap;

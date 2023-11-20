@@ -1,19 +1,14 @@
 package nss.capstone.activity;
 
-import nss.capstone.activity.requests.CreateRecipeRequest;
 import nss.capstone.activity.requests.GetRecipeRequest;
-import nss.capstone.activity.results.GetRecipeResult;
 import nss.capstone.dynamodb.RecipeDao;
-import nss.capstone.dynamodb.models.Ingredient;
 import nss.capstone.dynamodb.models.Recipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
