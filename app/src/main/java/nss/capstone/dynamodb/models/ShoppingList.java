@@ -10,7 +10,7 @@ import java.util.Map;
 public class ShoppingList {
 
     private String userId;
-    private Map<Ingredient, String> shoppingListItems;
+    private Map<String, Integer> shoppingListItems;
 
     @DynamoDBHashKey(attributeName = "userId")
     public String getUserId() {
@@ -22,11 +22,11 @@ public class ShoppingList {
     }
 
     @DynamoDBAttribute(attributeName = "shoppingListItems")
-    public Map<Ingredient, String> getShoppingListItems() {
+    public Map<String, Integer> getShoppingListItems() {
         return shoppingListItems;
     }
 
-    public void setShoppingListItems(Map<Ingredient, String> shoppingListItems) {
+    public void setShoppingListItems(Map<String, Integer> shoppingListItems) {
         this.shoppingListItems = shoppingListItems;
     }
 

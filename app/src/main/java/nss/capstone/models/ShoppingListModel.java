@@ -10,9 +10,9 @@ import java.util.Objects;
 public class ShoppingListModel {
 
     private final String userId;
-    private final Map<Ingredient, String> shoppingListItems;
+    private final Map<String, Integer> shoppingListItems;
 
-    public ShoppingListModel(String userId, Map<Ingredient, String> shoppingListItems) {
+    public ShoppingListModel(String userId, Map<String, Integer> shoppingListItems) {
         this.userId = userId;
         this.shoppingListItems = shoppingListItems;
     }
@@ -21,7 +21,7 @@ public class ShoppingListModel {
         return userId;
     }
 
-    public Map<Ingredient, String> getShoppingListItems() {
+    public Map<String, Integer> getShoppingListItems() {
         return shoppingListItems;
     }
 
@@ -52,14 +52,14 @@ public class ShoppingListModel {
 
     public static class Builder {
         private String userId;
-        private Map<Ingredient, String> shoppingListItems;
+        private Map<String, Integer> shoppingListItems;
 
         public ShoppingListModel.Builder withUserId(String userId) {
             this.userId = userId;
             return this;
         }
 
-        public ShoppingListModel.Builder withShoppingListItems(Map<Ingredient, String> shoppingListItems) {
+        public ShoppingListModel.Builder withShoppingListItems(Map<String, Integer> shoppingListItems) {
             this.shoppingListItems = shoppingListItems;
             return this;
         }
