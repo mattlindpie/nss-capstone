@@ -30,21 +30,20 @@ class ListDaoTest {
 
     @Test
     public void saveList_listExists_savesNewItems() {
-//        Map<String, Integer> shoppingListMap = new HashMap<>();
-//        shoppingListMap.put("honey", 1);
-//        shoppingListMap.put("black tea", 1);
-//
-//        List<String> newIngredients = new ArrayList<>(Arrays.asList("lemon", "cinnamon"));
-//
-//        ShoppingList shoppingList = new ShoppingList();
-//        shoppingList.setUserId(USER_ID);
-//        shoppingList.setShoppingListItems(shoppingListMap);
-//
-//        when(mapper.load(any())).thenReturn(shoppingList);
-//
-//        listDao.saveList(newIngredients, USER_ID);
-//        assertEquals(4, shoppingList.getShoppingListItems().size());
-//        verify(mapper).save(any());
+        Map<String, Integer> shoppingListMap = new HashMap<>();
+        shoppingListMap.put("honey", 1);
+        shoppingListMap.put("black tea", 1);
+
+        List<String> newIngredients = new ArrayList<>(Arrays.asList("lemon", "cinnamon"));
+
+        ShoppingList shoppingList = new ShoppingList();
+        shoppingList.setUserId(USER_ID);
+        shoppingList.setShoppingListItems(shoppingListMap);
+
+        when(mapper.load(ShoppingList.class, USER_ID)).thenReturn(shoppingList);
+        listDao.saveList(newIngredients, USER_ID);
+        assertEquals(4, shoppingList.getShoppingListItems().size());
+        verify(mapper).save(any());
     }
 
     @Test
