@@ -34,8 +34,8 @@ class GetRecipe extends BindingClass {
 
         this.client = new PortionPerfectClient();
 
-        const searchCriteria = this.dataStore.get(SEARCH_CRITERIA_KEY);
-        const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY);
+        // const searchCriteria = this.dataStore.get(SEARCH_CRITERIA_KEY);
+        // const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY);
 
         const urlParams = new URLSearchParams(window.location.search);
         const recipeName = urlParams.get('recipeName');
@@ -69,11 +69,9 @@ class GetRecipe extends BindingClass {
 
         });
 
-        const shoppingList = await this.client.addToShoppingList(ingredientNames, (error) => {
+        await this.client.addToShoppingList(ingredientNames, (error) => {
             createButton.innerText = origButtonText;
         });
-        this.dataStore.set('shoppingList', shoppingList);
-
     }
 
     displayRecipe() {
@@ -84,8 +82,6 @@ class GetRecipe extends BindingClass {
         const searchResultsDisplay = document.getElementById('search-results-container');
         const ingredientsDisplay = document.getElementById('ingredients-display');
         const recipeStepsDisplay = document.getElementById('steps-display');
-
-        console.log(SEARCH_RESULTS_KEY);
 
         if (searchCriteria === '') {
 
