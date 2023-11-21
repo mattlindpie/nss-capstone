@@ -19,7 +19,7 @@ public class ListDao {
 
     public ShoppingList saveList(List<String> ingredients, String userId) {
         try {
-            ShoppingList shoppingList = mapper.load(ShoppingList.class, userId);
+            ShoppingList shoppingList = getShoppingList(userId);
             Map<String, Integer> shoppingListMap = shoppingList.getShoppingListItems();
 
             for (String ingredient : ingredients) {
@@ -42,6 +42,10 @@ public class ListDao {
             this.mapper.save(newShoppingList);
             return newShoppingList;
         }
+    }
+
+    public ShoppingList getShoppingList(String userId) {
+        return mapper.load(ShoppingList.class, userId);
     }
 
 }
