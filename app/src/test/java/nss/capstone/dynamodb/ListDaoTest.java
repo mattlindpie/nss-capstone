@@ -57,4 +57,14 @@ class ListDaoTest {
         verify(mapper).save(any());
     }
 
+    @Test
+    public void getList_listExists_returnsList() {
+        when(mapper.load(ShoppingList.class, USER_ID)).thenReturn(new ShoppingList());
+
+        ShoppingList result = listDao.getShoppingList(USER_ID);
+
+        assertNotNull(result);
+        verify(mapper).load(ShoppingList.class, USER_ID);
+    }
+
 }

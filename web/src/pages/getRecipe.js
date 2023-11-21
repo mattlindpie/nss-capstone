@@ -34,9 +34,6 @@ class GetRecipe extends BindingClass {
 
         this.client = new PortionPerfectClient();
 
-        // const searchCriteria = this.dataStore.get(SEARCH_CRITERIA_KEY);
-        // const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY);
-
         const urlParams = new URLSearchParams(window.location.search);
         const recipeName = urlParams.get('recipeName');
 

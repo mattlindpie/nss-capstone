@@ -321,6 +321,25 @@ Resources:
             Path: /shoppingLists
             Method: post
 
+  GetShoppingListLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Role: !GetAtt AccessRole.Arn
+      CodeUri: app
+      Handler: nss.capstone.lambda.GetShoppingListLambda::handleRequest
+      Runtime: java11
+      Architectures:
+        - x86_64
+      MemorySize: 512
+      Environment:
+        Variables:
+          JAVA_TOOL_OPTIONS: -XX:+TieredCompilation -XX:TieredStopAtLevel=1
+      Events:
+        capstone:
+          Type: Api
+          Properties:
+            Path: /shoppingLists
+            Method: get
 #
 #  #-----------------------------------------------------
 #  # DynamoDB Configuration
