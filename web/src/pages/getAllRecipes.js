@@ -52,8 +52,8 @@ class GetAllRecipes extends BindingClass {
         const recipeList = this.dataStore.get(SEARCH_RESULTS_KEY);
         
 
-        const allGoalsContainer = document.getElementById('recipes-container');
-        const allGoalsDisplay = document.getElementById('recipes-display');
+        // const allGoalsContainer = document.getElementById('recipes-container');
+        // const allGoalsDisplay = document.getElementById('recipes-display');
 
 
         const recipesTableHTML = document.getElementById('recipes-table');

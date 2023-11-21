@@ -15,7 +15,7 @@ export default class PortionPerfectClient extends BindingClass {
     constructor(props = {}) {
         super();
 
-        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'createRecipe', 'getRecipe', 'getAllRecipes', 'deleteRecipe', 'addToShoppingList'];
+        const methodsToBind = ['clientLoaded', 'getIdentity', 'login', 'logout', 'createRecipe', 'getRecipe', 'getAllRecipes', 'deleteRecipe', 'addToShoppingList', 'getShoppingList'];
         this.bindClassMethods(methodsToBind, this);
 
         this.authenticator = new Authenticator();;
@@ -151,6 +151,20 @@ export default class PortionPerfectClient extends BindingClass {
             return response.data.shoppingList;
         } catch (error) {
             this.handleError(error, errorCallback)
+        }
+    }
+
+    async getShoppingList() {
+        try {
+            const token = await this.getTokenOrThrow("Only authenticated users can retrieve shopping list.");
+            const response = await this.axiosClient.get(`shoppingLists`, {
+                headers: {
+                   Authorization: `Bearer ${token}`
+                }}
+                );
+            return response.data.shoppingList;
+        } catch (error) {
+            this.handleError(error)
         }
     }
 
