@@ -44,6 +44,12 @@ public interface ServiceComponent {
      * @return GetShoppingListActivity
      */
     GetShoppingListActivity provideGetShoppingListActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return UpdateShoppingListActivity
+     */
+    UpdateShoppingListActivity provideUpdateShoppingListActivity();
 }
 
 
