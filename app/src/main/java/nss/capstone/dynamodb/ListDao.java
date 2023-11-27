@@ -48,4 +48,9 @@ public class ListDao {
         return mapper.load(ShoppingList.class, userId);
     }
 
+    public ShoppingList updateShoppingList(ShoppingList shoppingList) {
+        this.mapper.save(shoppingList);
+        return shoppingList;
+    }
+
 }
