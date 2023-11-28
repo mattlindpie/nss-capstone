@@ -50,11 +50,6 @@ class GetAllRecipes extends BindingClass {
         console.log("IN DISPLAY RECIPES");
 
         const recipeList = this.dataStore.get(SEARCH_RESULTS_KEY);
-        
-
-        // const allGoalsContainer = document.getElementById('recipes-container');
-        // const allGoalsDisplay = document.getElementById('recipes-display');
-
 
         const recipesTableHTML = document.getElementById('recipes-table');
         recipesTableHTML.innerHTML = '';
@@ -84,21 +79,6 @@ class GetAllRecipes extends BindingClass {
             });
             fullRecipeButtonCell.appendChild(fullRecipeButton);
             row.appendChild(fullRecipeButtonCell);
-
-            const addToListButtonCell = document.createElement('td');
-            const addToListButton = document.createElement('button');
-
-            addToListButton.textContent = 'Add to List';
-            addToListButton.className = 'button';
-            addToListButton.addEventListener('click', async () => {
-                let addYN = confirm("Add recipe to shopping list?");
-                if (addYN === true) {
-                    await this.client.addIngredients(recipeName);
-                }
-            });
-
-            addToListButtonCell.appendChild(addToListButton);
-            row.appendChild(addToListButtonCell);
 
             const updateButtonCell = document.createElement('td');
             const updateButton = document.createElement('button');

@@ -68,21 +68,82 @@ class GetShoppingList extends BindingClass {
         nameHeader.textContent = 'Ingredient';
         headerRow.appendChild(nameHeader);
 
+        const subtractHeader = document.createElement('th');
+        subtractHeader.textContent = '';
+        headerRow.appendChild(subtractHeader);
+
         const quantityHeader = document.createElement('th');
-        quantityHeader.textContent = 'Quantity';
+        quantityHeader.textContent = 'Qty';
         headerRow.appendChild(quantityHeader);
+
+        const addHeader = document.createElement('th');
+        addHeader.textContent = '';
+        headerRow.appendChild(addHeader);
 
         const tableBody = table.createTBody();
 
-        for (const [key, value] of ingredientsMap) {
+        for (let [key, value] of ingredientsMap) {
             const row = tableBody.insertRow();
 
             const ingredientNameCell = row.insertCell(0);
-            const quantityCell = row.insertCell(1);
+            const subtractOneFromQuantityCell = row.insertCell(1);
+            const quantityCell = row.insertCell(2);
+            const addOneToQuantityCell = row.insertCell(3);
+            const removeCell = row.insertCell(4);
 
             ingredientNameCell.textContent = key;
             quantityCell.textContent = value;
+
+            const addButton = document.createElement('button');
+            addButton.textContent = "+";
+            addButton.addEventListener('click', async () => {
+                value = value + 1;
+                quantityCell.textContent = value;
+                ingredientsMap.set(key, value);
+            });
+
+            const subtractButton = document.createElement('button');
+            subtractButton.textContent = "-";
+            subtractButton.addEventListener('click', async () => {
+                value = value - 1;
+                quantityCell.textContent = value;
+                ingredientsMap.set(key, value);
+            });
+
+            const removeButton = document.createElement('button');
+            removeButton.textContent = "Remove";
+            removeButton.addEventListener('click', async () => {
+                ingredientsMap.delete(key);
+                row.style.display = "none";                
+            });
+
+            subtractOneFromQuantityCell.appendChild(subtractButton);
+            addOneToQuantityCell.appendChild(addButton);
+            removeCell.appendChild(removeButton);
         }
+
+        const submitButton = document.getElementById('submit-button');
+
+        submitButton.addEventListener('click', async(evt) => {
+            evt.preventDefault();
+            const mapObject = Object.fromEntries(ingredientsMap);
+            await this.client.updateShoppingList(mapObject);
+            window.alert("Changes Saved");
+
+        })
+
+        const clearButton = document.getElementById('clear-button');
+        clearButton.addEventListener('click', async(evt) => {
+            evt.preventDefault();
+            let clearYN = confirm("Clear full shopping list?");
+            if (clearYN === true) {
+                ingredientsMap.clear();
+                const mapObject = Object.fromEntries(ingredientsMap);
+                tableBody.style.display = "none";
+                await this.client.updateShoppingList(mapObject);
+            }
+
+        });
 
         shoppingListTable.appendChild(table);
 
