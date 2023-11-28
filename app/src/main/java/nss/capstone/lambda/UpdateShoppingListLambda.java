@@ -16,7 +16,8 @@ public class UpdateShoppingListLambda extends LambdaActivityRunner<UpdateShoppin
                                     .withUserId(claims.get("email"))
                                     .withShoppingListItems(unauthenticatedRequest.getShoppingListItems())
                                     .build());
-                },(request, serviceComponent) ->
+                },
+                (request, serviceComponent) ->
                         serviceComponent.provideUpdateShoppingListActivity().handleRequest(request));
     }
 

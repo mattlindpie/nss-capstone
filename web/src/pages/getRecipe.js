@@ -69,6 +69,7 @@ class GetRecipe extends BindingClass {
         await this.client.addToShoppingList(ingredientNames, (error) => {
             createButton.innerText = origButtonText;
         });
+        window.alert("Ingredients added to list.");
     }
 
     displayRecipe() {
