@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="assets/createRecipe.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body class="background">
+<header class="header" id="header"></header>
+<div class="card">
+
+    <h2>Create New Recipe</h2>
+    <form class="card-content" id="create-recipe-form">
+        <p class="hidden error" id="error-message"> </p>
+        <p class="form-field">
+            <label>Recipe Name</label>
+            <input type="text" class="validated-field" id="recipeName" required>
+        </p>
+        <p class="form-field">
+            <label>Ingredient: </label>
+            <input type="text" id="ingredient-name" class="validated-field" required>
+            <label>Amount: </label>
+            <input type="text" id="amount" class="validated-field" required>
+            <label>Unit: </label>
+            <select name="unit" id="unit">
+                <option value="count">Count</option>
+                <option value="c">Cups</option>
+                <option value="fl oz">Fluid Ounces</option>
+                <option value="g">Grams</option>
+                <option value="mg">Milligrams</option>
+                <option value="ml">Milliliters</option>
+                <option value="oz">Ounces</option>
+                <option value="tbsp">Tablespoons</option>
+                <option value="tsp">Teaspoons</option>
+            </select>
+            <p>
+                <a href="#" class="button" id="add-button">Add Ingredient</a>
+            </p>
+            <p><table id='ingredients-table'></table>
+            </p>
+        </p>
+        <p class="form-field">
+            <label>Recipe Steps</label>
+            <textarea id="recipeSteps" name="recipeSteps" rows="4" cols="50" placeholder="separate steps with ','"></textarea>
+        </p>
+        <p class="form-field">
+            <label>Servings</label>
+            <input type="number" id="servings" class="validated-field" required>
+        </p>
+        <p class="form-field">
+            <label>Calories</label>
+            <input type="number" id="calories" class="validated-field">
+        </p>
+
+        <p>
+            <a href="#" class="button" id="submit-button">Create Recipe</a>
+        </p>
+    </form>
+
+    <div>
+        <table id='ingredients-table'></table>
+    </div>
+
+</div>
+</body>
+</html>
