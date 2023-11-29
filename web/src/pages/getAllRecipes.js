@@ -26,7 +26,6 @@ class GetAllRecipes extends BindingClass {
      * Add the header to the page and load the PortionPerfectClient.
      */
     mount() {
-        document.getElementById('createRecipe').addEventListener('click', this.submit);
 
         this.dataStore.addChangeListener(this.displayRecipes);
 
