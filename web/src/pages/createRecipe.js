@@ -9,7 +9,7 @@ import DataStore from '../util/DataStore';
 class CreateRecipe extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['mount', 'submit', 'addIngredient','addRow'], this);
+        this.bindClassMethods(['mount', 'createRecipe','addRow'], this);
         this.dataStore = new DataStore();
         this.header = new Header(this.dataStore);
 
@@ -20,50 +20,15 @@ class CreateRecipe extends BindingClass {
      */
     mount() {
 
-        this.addIngredient();
-
-        document.getElementById('submit-button').addEventListener('click', this.submit);
+        this.createRecipe();
 
         this.header.addHeaderToPage();
 
         this.client = new PortionPerfectClient();
 
-        // this.buildTable();
     }
 
-         /**
-     * Method to run when the create recipe submit button is pressed. Call the nss.capstone to create the
-     * recipe.
-     */
-         async submit(evt) {
-            evt.preventDefault();
-    
-            const errorMessageDisplay = document.getElementById('error-message');
-            errorMessageDisplay.innerText = ``;
-            errorMessageDisplay.classList.add('hidden');
-    
-            const recipeName = document.getElementById('recipeName').value;
-            const ingredients = document.getElementById('ingredients-table').value;
-            const recipeStepsText = document.getElementById('recipeSteps').value;
-            const servings = document.getElementById('servings').value;
-            const calories = document.getElementById('calories').value;
-    
-            let recipeSteps;
-            if (recipeStepsText.length < 1) {
-                recipeSteps = null;
-            } else {
-                recipeSteps = recipeStepsText.split(/\s*,\s*/);
-            }
-    
-            const recipe = await this.client.createRecipe(recipeName, servings, recipeSteps, ingredients, calories, (error) => {
-                // createButton.innerText = origButtonText;
-                errorMessageDisplay.innerText = `Error: ${error.message}`;
-                errorMessageDisplay.classList.remove('hidden');
-            });
-            this.dataStore.set('recipe', recipe);
-        }
-
-        addIngredient() {
+        createRecipe() {
 
             const ingredientInputTable = document.getElementById('ingredients-table');
             const table = document.createElement('table');
@@ -106,6 +71,34 @@ class CreateRecipe extends BindingClass {
 
                 this.addRow(tableBody, ingredient);
                 
+            })
+
+            const submitButton = document.getElementById('submit-button');
+            submitButton.addEventListener('click', async (evt) => {
+                evt.preventDefault();
+    
+                const errorMessageDisplay = document.getElementById('error-message');
+                errorMessageDisplay.innerText = ``;
+                errorMessageDisplay.classList.add('hidden');
+        
+                const recipeName = document.getElementById('recipeName').value;
+                const ingredients = ingredientArray;
+                const recipeStepsText = document.getElementById('recipeSteps').value;
+                const servings = document.getElementById('servings').value;
+                const calories = document.getElementById('calories').value;
+        
+                let recipeSteps;
+                if (recipeStepsText.length < 1) {
+                    recipeSteps = null;
+                } else {
+                    recipeSteps = recipeStepsText.split(/\s*,\s*/);
+                }
+        
+                const recipe = await this.client.createRecipe(recipeName, servings, recipeSteps, ingredients, calories, (error) => {
+                    errorMessageDisplay.innerText = `Error: ${error.message}`;
+                    errorMessageDisplay.classList.remove('hidden');
+                });
+                this.dataStore.set('recipe', recipe);
             })
         }
     
