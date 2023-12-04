@@ -16,7 +16,7 @@ const EMPTY_DATASTORE_STATE = {
 class UpdateRecipe extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['mount', 'submit', 'getRecipe', 'displayRecipe', 'getHTMLForSearchResults', 'getIngredientsList', 'displayRecipeSteps', 'addRow'], this);
+        this.bindClassMethods(['mount', 'getRecipe', 'displayRecipe', 'getHTMLForSearchResults', 'buildIngredientsTable', 'displayRecipeSteps', 'addRow'], this);
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
 
@@ -27,8 +27,6 @@ class UpdateRecipe extends BindingClass {
      */
     mount() {
         this.dataStore.addChangeListener(this.displayRecipe);
-
-
 
         this.header.addHeaderToPage();
 
@@ -52,31 +50,16 @@ class UpdateRecipe extends BindingClass {
                     this.dataStore.setState(EMPTY_DATASTORE_STATE);
                 }
     }
-    
-    async submit(recipeName, servings, recipeStepsText, ingredients, calories) {
-
-        let recipeSteps;
-        if (recipeStepsText.length < 1) {
-            recipeSteps = null;
-        } else {
-            recipeSteps = recipeStepsText.split(/\s*,\s*/);
-        }
-
-        const recipe = await this.client.updateRecipe(recipeName, servings, recipeSteps, ingredients, calories,(error) => {
-            errorMessageDisplay.innerText = `Error: ${error.message}`;
-            errorMessageDisplay.classList.remove('hidden');
-        });
-        this.dataStore.set('recipe', recipe);
-        // this.getRecipe();
-    }
 
     displayRecipe() {
         const searchCriteria = this.dataStore.get(SEARCH_CRITERIA_KEY);
         const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY);
 
-        let ingredientList = searchResults.ingredients;
-        let servings = 4;
+        const recipeName = searchCriteria;
+        let servings = searchResults.servings;
         let recipeSteps = searchResults.recipeSteps;
+        let ingredientList = searchResults.ingredients;
+        let calories = searchResults.calories;
 
         const recipeNameDisplay = document.getElementById('recipe-name-display');
         const searchResultsDisplay = document.getElementById('search-results-container');
@@ -89,35 +72,41 @@ class UpdateRecipe extends BindingClass {
 
         } else {
             recipeNameDisplay.innerHTML = `${searchCriteria}`;
-            searchResultsDisplay.innerHTML = this.getHTMLForSearchResults(searchResults); 
-            ingredientsDisplay.innerHTML = '';
-            this.getIngredientsList(ingredientList, ingredientsDisplay);
-            recipeStepsDisplay.innerHTML = this.displayRecipeSteps(searchResults);
 
-            const submitButton = document.getElementById('submit-button');
-            submitButton.addEventListener('click', this.submit(SEARCH_CRITERIA_KEY, servings, recipeSteps, ingredientList, calories));
+            searchResultsDisplay.innerHTML = '';
+            this.getHTMLForSearchResults(calories, servings, searchResultsDisplay); 
+
+            recipeNameDisplay.innerHTML = '';
+            this.displayRecipeSteps(recipeSteps, recipeStepsDisplay);
+
+            ingredientsDisplay.innerHTML = '';
+            this.buildIngredientsTable(ingredientList, ingredientsDisplay);
+
+            const updateButton = document.getElementById('submit-button');
+            updateButton.addEventListener('click', async (evt) => {
+                evt.preventDefault();
+                const recipe = await this.client.updateRecipe(recipeName, servings, recipeSteps, ingredientList, calories, (error) => {
+                    errorMessageDisplay.innerText = `Error: ${error.message}`;
+                    errorMessageDisplay.classList.remove('hidden');
+                });
+                this.dataStore.set('recipe', recipe);
+            })
         }
     }
 
-    getHTMLForSearchResults(searchResults) {
-        const calories = searchResults.calories;
-        const servings = searchResults.servings;
-
-        const container = document.getElementById('search-results-container');
+    getHTMLForSearchResults(calories, servings, searchResultsDisplay) {
 
         const servingsElement = document.createElement('p');
-        servingsElement.textContent = `Servings: ${servings}`;
+        servingsElement.textContent = 'Servings: ' + servings;
 
         const caloriesElement = document.createElement('p');
-        caloriesElement.textContent = `Calories: ${calories} | ` + servingsElement.textContent;
-        container.appendChild(caloriesElement);       
+        caloriesElement.textContent = 'Calories: ' + calories + ' | '  + servingsElement.textContent;
+        searchResultsDisplay.appendChild(caloriesElement);       
 
-        return container.outerHTML;
+        return searchResultsDisplay.outerHTML;
     }
 
-    getIngredientsList(ingredientList, ingredientsDisplay) {
-
-        // const ingredientList = searchResults.ingredients;
+    buildIngredientsTable(ingredientList, ingredientsDisplay) {
 
         const tableTitle = document.createElement('h4');
         tableTitle.textContent = 'Ingredients:';
@@ -152,7 +141,6 @@ class UpdateRecipe extends BindingClass {
 
         for (let ingredient of ingredientList) {
             this.addRow(tableBody, ingredient, ingredientList);
-
         }
 
         const addButton = document.getElementById('add-button');
@@ -174,28 +162,6 @@ class UpdateRecipe extends BindingClass {
         ingredientsDisplay.appendChild(table);
 
         return ingredientsDisplay.outerHTML;
-    }
-
-    displayRecipeSteps(searchResults) {
-        const recipeSteps = searchResults.recipeSteps;
-
-        const container = document.getElementById('steps-display');
-
-        const listTitle = document.createElement('h4');
-        listTitle.textContent = 'Recipe Steps:';
-        container.appendChild(listTitle);
-
-        const stepList = document.createElement('ol');
-
-        recipeSteps.forEach((step) => {
-            const listItem = document.createElement('li');
-            listItem.textContent = step;
-            stepList.appendChild(listItem);
-        });
-
-        container.appendChild(stepList);
-
-        return container.outerHTML;
     }
 
     addRow(tableBody, ingredient, ingredientList) {
@@ -247,10 +213,27 @@ class UpdateRecipe extends BindingClass {
         subtractOneFromAmountCell.appendChild(subtractButton);
         addOneToAmountCell.appendChild(addOneButton);
 
-
     }
 
+    displayRecipeSteps(recipeSteps, recipeStepsDisplay) {
+        if(recipeStepsDisplay.innerHTML === '') {
+            const listTitle = document.createElement('h4');
+            listTitle.textContent = 'Recipe Steps:';
+            recipeStepsDisplay.appendChild(listTitle);
+    
+            const stepList = document.createElement('ol');
+    
+            recipeSteps.forEach((step) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = step;
+                stepList.appendChild(listItem);
+            });
+    
+            recipeStepsDisplay.appendChild(stepList);
+        }
 
+        return recipeStepsDisplay.outerHTML;
+    }
 }
 
 const main = async () => {
