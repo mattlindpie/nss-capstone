@@ -12,7 +12,13 @@
 
     <h1>Edit Recipe</h1>
     <h2> <span id="recipe-name-display"></span></h2>
-    <div id='search-results-container'></div>
+    <!-- <div id='search-results-container'></div> -->
+    <p>       
+        <label>Calories: </label>     
+        <input type="number" id="calories" class="validated-field" min="0">
+        <label>Servings: </label>
+        <input type="number" id="servings" class="validated-field" min="1">
+    </p>
     <div id="ingredients-display"></div>
     <form class="card-content" id="create-recipe-form">
         <p class="hidden error" id="error-message"> </p>
@@ -41,16 +47,9 @@
         </p>
         <p class="form-field">
             <div id="steps-display"></div>
-            <textarea id="recipeSteps" name="recipeSteps" rows="4" cols="50" placeholder="separate steps with ','"></textarea>
-        </p>
-        <p class="form-field">
-            <label>Servings</label>
-            <input type="number" id="servings" class="validated-field">
-        </p>
-        <p class="form-field">
-            <label>Calories</label>
-            <input type="number" id="calories" class="validated-field">
-        </p>
+            <textarea id="recipe-steps" name="recipeSteps" rows="4" cols="50"></textarea>
+            <a href="#" class="button" id="save-steps-button">Update</a>
+
         <p>
             <a href="#" class="button" id="submit-button">Save Changes</a>
         </p>

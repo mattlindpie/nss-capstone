@@ -56,6 +56,7 @@ class UpdateRecipe extends BindingClass {
         const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY);
 
         const recipeName = searchCriteria;
+
         let servings = searchResults.servings;
         let recipeSteps = searchResults.recipeSteps;
         let ingredientList = searchResults.ingredients;
@@ -73,10 +74,9 @@ class UpdateRecipe extends BindingClass {
         } else {
             recipeNameDisplay.innerHTML = `${searchCriteria}`;
 
-            searchResultsDisplay.innerHTML = '';
-            this.getHTMLForSearchResults(calories, servings, searchResultsDisplay); 
+            this.getHTMLForSearchResults(calories, servings); 
 
-            recipeNameDisplay.innerHTML = '';
+            recipeStepsDisplay.innerHTML = '';
             this.displayRecipeSteps(recipeSteps, recipeStepsDisplay);
 
             ingredientsDisplay.innerHTML = '';
@@ -85,25 +85,27 @@ class UpdateRecipe extends BindingClass {
             const updateButton = document.getElementById('submit-button');
             updateButton.addEventListener('click', async (evt) => {
                 evt.preventDefault();
-                const recipe = await this.client.updateRecipe(recipeName, servings, recipeSteps, ingredientList, calories, (error) => {
+
+                calories = document.getElementById('calories').value;
+
+                servings = document.getElementById('servings').value;
+
+                recipeSteps = document.getElementById('recipe-steps').value;
+                recipeSteps = recipeSteps.split(/\s*,\s*/);
+
+                await this.client.updateRecipe(recipeName, servings, recipeSteps, ingredientList, calories, (error) => {
                     errorMessageDisplay.innerText = `Error: ${error.message}`;
                     errorMessageDisplay.classList.remove('hidden');
                 });
-                this.dataStore.set('recipe', recipe);
             })
         }
     }
 
-    getHTMLForSearchResults(calories, servings, searchResultsDisplay) {
-
-        const servingsElement = document.createElement('p');
-        servingsElement.textContent = 'Servings: ' + servings;
-
-        const caloriesElement = document.createElement('p');
-        caloriesElement.textContent = 'Calories: ' + calories + ' | '  + servingsElement.textContent;
-        searchResultsDisplay.appendChild(caloriesElement);       
-
-        return searchResultsDisplay.outerHTML;
+    getHTMLForSearchResults(calories, servings) {
+        const servingsElement = document.getElementById('servings');
+        servingsElement.value = servings;
+        const caloriesElement = document.getElementById('calories');
+        caloriesElement.value = calories;
     }
 
     buildIngredientsTable(ingredientList, ingredientsDisplay) {
@@ -154,7 +156,6 @@ class UpdateRecipe extends BindingClass {
             const ingredient = {ingredientName: ingredientName, amount: parseFloat(amount), unitOfMeasurement: unit};
 
             ingredientList.push(ingredient);
-            console.log(ingredientList);
             this.addRow(tableBody, ingredient, ingredientList);
             
         })
@@ -162,6 +163,49 @@ class UpdateRecipe extends BindingClass {
         ingredientsDisplay.appendChild(table);
 
         return ingredientsDisplay.outerHTML;
+    }
+
+    displayRecipeSteps(recipeSteps, recipeStepsDisplay) {
+        console.log(recipeSteps);
+
+
+        let stepsInput = document.getElementById('recipe-steps');
+        stepsInput.value = recipeSteps;
+
+        if(recipeStepsDisplay.innerHTML === '') {
+            const listTitle = document.createElement('h4');
+            listTitle.textContent = 'Recipe Steps:';
+            recipeStepsDisplay.appendChild(listTitle);
+
+            const stepList = document.createElement('ol');
+    
+            recipeSteps.forEach((step) => {
+                console.log(step);
+                const listItem = document.createElement('li');
+                listItem.textContent = step;
+                stepList.appendChild(listItem);
+            });
+
+            const saveStepsButton = document.getElementById('save-steps-button');
+            saveStepsButton.addEventListener('click', (evt) => {
+                evt.preventDefault();
+
+                let steps = stepsInput.value;
+                recipeSteps = steps.split(/\s*,\s*/);
+
+                stepList.innerHTML = '';
+
+                recipeSteps.forEach((step) => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = step;
+                    stepList.appendChild(listItem);
+                });
+                recipeStepsDisplay.appendChild(stepList);
+            })
+            
+            recipeStepsDisplay.appendChild(stepList);
+        }
+        return recipeSteps;
     }
 
     addRow(tableBody, ingredient, ingredientList) {
@@ -185,21 +229,19 @@ class UpdateRecipe extends BindingClass {
         const addOneButton = document.createElement('button');
         addOneButton.textContent = "+";
         addOneButton.addEventListener('click', async () => {
-            amount++;
+            amount = amount + .25;
             amountCell.textContent = amount;
             ingredient.amount = amount; 
-            console.log(amount)
-            console.log(ingredient);
         });
 
         const subtractButton = document.createElement('button');
         subtractButton.textContent = "-";
         subtractButton.addEventListener('click', async () => {
-            amount--;
-            amountCell.textContent = amount;
-            ingredient.amount = amount; 
-            console.log(amount)
-            console.log(ingredient);
+            if(amount - .25 > 0) {
+                amount = amount - .25;
+                amountCell.textContent = amount;
+                ingredient.amount = amount; 
+            }
         });
 
         const removeButton = document.createElement('button');
@@ -213,26 +255,6 @@ class UpdateRecipe extends BindingClass {
         subtractOneFromAmountCell.appendChild(subtractButton);
         addOneToAmountCell.appendChild(addOneButton);
 
-    }
-
-    displayRecipeSteps(recipeSteps, recipeStepsDisplay) {
-        if(recipeStepsDisplay.innerHTML === '') {
-            const listTitle = document.createElement('h4');
-            listTitle.textContent = 'Recipe Steps:';
-            recipeStepsDisplay.appendChild(listTitle);
-    
-            const stepList = document.createElement('ol');
-    
-            recipeSteps.forEach((step) => {
-                const listItem = document.createElement('li');
-                listItem.textContent = step;
-                stepList.appendChild(listItem);
-            });
-    
-            recipeStepsDisplay.appendChild(stepList);
-        }
-
-        return recipeStepsDisplay.outerHTML;
     }
 }
 
