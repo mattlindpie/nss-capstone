@@ -20,6 +20,12 @@ public interface ServiceComponent {
      * @return GetAllRecipesActivity
      */
     GetAllRecipesActivity provideGetAllRecipesActivity();
+
+    /**
+     * Provides the relevant activity.
+     * @return GetRecipesByCaloriesActivity
+     */
+    GetRecipesByCaloriesActivity provideGetRecipesByCaloriesActivity();
  
     /**
      * Provides the relevant activity.
