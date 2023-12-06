@@ -124,6 +124,26 @@ export default class PortionPerfectClient extends BindingClass {
         }
     }
 
+    async updateRecipe(recipeName, servings, recipeSteps, ingredients, calories, errorCallback) {
+        try {
+            const token = await this.getTokenOrThrow("Only authenticated users can create recipes.");
+            const response = await this.axiosClient.put(`recipes/${recipeName}`, {
+                recipeName: recipeName,
+                servings: servings,
+                recipeSteps: recipeSteps,
+                ingredients: ingredients,
+                calories: calories
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            return response.data.recipe;
+        } catch (error) {
+            this.handleError(error, errorCallback)
+        }
+    }
+
     async deleteRecipe(recipeName) {
         try {
             const token = await this.getTokenOrThrow("Only authenticated users can delete recipes.");

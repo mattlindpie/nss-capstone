@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="assets/updateRecipe.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+
+<body class="background">
+<header class="header" id="header"></header>
+<div class="card">
+
+    <h1>Edit Recipe</h1>
+    <h2> <span id="recipe-name-display"></span></h2>
+    <!-- <div id='search-results-container'></div> -->
+    <p>       
+        <label>Calories: </label>     
+        <input type="number" id="calories" class="validated-field" min="0">
+        <label>Servings: </label>
+        <input type="number" id="servings" class="validated-field" min="1">
+    </p>
+    <div id="ingredients-display"></div>
+    <form class="card-content" id="create-recipe-form">
+        <p class="hidden error" id="error-message"> </p>
+        <p class="form-field">
+            <label>Ingredient: </label>
+            <input type="text" id="ingredient-name" class="validated-field">
+            <label>Amount: </label>
+            <input type="text" id="amount" class="validated-field">
+            <label>Unit: </label>
+            <select name="unit" id="unit">
+                <option value="count">Count</option>
+                <option value="c">Cups</option>
+                <option value="fl oz">Fluid Ounces</option>
+                <option value="g">Grams</option>
+                <option value="mg">Milligrams</option>
+                <option value="ml">Milliliters</option>
+                <option value="oz">Ounces</option>
+                <option value="tbsp">Tablespoons</option>
+                <option value="tsp">Teaspoons</option>
+            </select>
+            <p>
+                <a href="#" class="button" id="add-button">Add Ingredient</a>
+            </p>
+            <p><table id='ingredients-table'></table>
+            </p>
+        </p>
+        <p class="form-field">
+            <div id="steps-display"></div>
+            <textarea id="recipe-steps" name="recipeSteps" rows="4" cols="50"></textarea>
+            <a href="#" class="button" id="save-steps-button">Update</a>
+
+        <p>
+            <a href="#" class="button" id="submit-button">Save Changes</a>
+        </p>
+    </form>
+
+</div>
+</body>
+</html>
