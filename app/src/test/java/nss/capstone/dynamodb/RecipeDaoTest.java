@@ -1,10 +1,14 @@
 package nss.capstone.dynamodb;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBQueryExpression;
+import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedQueryList;
 import nss.capstone.dynamodb.models.Recipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -17,9 +21,17 @@ class RecipeDaoTest {
 
     private final String USER_ID = "userId";
     private final String RECIPE_NAME = "recipeName";
+    private final Integer MIN_CALORIES = null;
+    private final Integer MAX_CALORIES = null;
 
     @Mock
     private DynamoDBMapper mapper;
+
+    @Mock
+    private PaginatedQueryList queryList;
+
+    @Mock
+    private DynamoDBQueryExpression queryExpression;
 
     private RecipeDao recipeDao;
 
@@ -65,5 +77,15 @@ class RecipeDaoTest {
 
         assertNotNull(result);
         verify(mapper).load(Recipe.class, USER_ID, RECIPE_NAME);
+    }
+
+    @Test
+    public void getRecipesByCalories_callsMapper() {
+        when(mapper.query(Recipe.class, queryExpression)).thenReturn(queryList);
+
+        List<Recipe> result = recipeDao.getRecipesByCalories(USER_ID, MIN_CALORIES, MAX_CALORIES);
+
+        assertNotNull(result);
+        verify(mapper).query(any(), any());
     }
 }
