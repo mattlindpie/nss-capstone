@@ -400,6 +400,15 @@ Resources:
           KeyType: "RANGE"
       BillingMode: "PAY_PER_REQUEST"
       TableName: "recipes"
+      GlobalSecondaryIndexes:
+        - IndexName: "RecipesByCaloriesIndex"
+          KeySchema:
+            - AttributeName: "userId"
+              KeyType: "HASH"
+            - AttributeName: "calories"
+              KeyType: "RANGE"
+          Projection:
+            ProjectionType: "ALL"
 
   ShoppingListTable:
     Type: AWS::DynamoDB::Table

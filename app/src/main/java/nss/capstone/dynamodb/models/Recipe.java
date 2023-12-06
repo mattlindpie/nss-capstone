@@ -7,6 +7,7 @@ import java.util.*;
 
 @DynamoDBTable(tableName = "recipes")
 public class Recipe {
+    public static final String GSI_TABLE_NAME = "RecipesByCaloriesIndex";
     private String userId;
     private String recipeName;
     private Integer servings;
@@ -15,6 +16,7 @@ public class Recipe {
     private Integer calories;
 
     @DynamoDBHashKey(attributeName = "userId")
+    @DynamoDBIndexHashKey(globalSecondaryIndexName = GSI_TABLE_NAME)
     public String getUserId() {
         return userId;
     }
@@ -66,7 +68,7 @@ public class Recipe {
         this.ingredients = ingredients;
     }
 
-    @DynamoDBAttribute(attributeName = "calories")
+    @DynamoDBIndexRangeKey(globalSecondaryIndexName = GSI_TABLE_NAME, attributeName = "calories")
     public Integer getCalories() {
         return calories;
     }
