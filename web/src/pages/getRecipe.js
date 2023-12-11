@@ -66,10 +66,15 @@ class GetRecipe extends BindingClass {
 
         });
 
+        const addNotification = document.getElementById('add-notification');
+        addNotification.innerHTML = "Adding ingredients";
+        addNotification.style.display = 'block';
+
         await this.client.addToShoppingList(ingredientNames, (error) => {
             createButton.innerText = origButtonText;
         });
-        window.alert("Ingredients added to list.");
+
+        addNotification.innerHTML = "Ingredients added to list";
     }
 
     displayRecipe() {
