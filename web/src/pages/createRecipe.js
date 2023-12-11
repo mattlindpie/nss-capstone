@@ -25,25 +25,19 @@ class CreateRecipe extends BindingClass {
 
         this.client = new PortionPerfectClient();
 
-        // const promise = Promise.resolve(this.client.getIdentity());
-        // promise.then(value => {
-        //     if (value.email === "undefined")
-        //     return value;
-        // });
-        // promise.then(value => {
-        //     console.log(value);
-        // });
+        const createRecipeHTML = document.getElementById('create-recipe-form');
+        const promise = Promise.resolve(this.client.getIdentity());
+        
+        promise.then(value => {
+            if (value === undefined) {
+                document.getElementById('create-recipe-header').innerHTML = 'Please login to create a recipe.'
+                createRecipeHTML.style.display = 'none';
 
-        // const identity = this.client.getIdentity().then(value => {
-        //     console.log(value);
-        //     return value;
-        // });
-        // console.log(identity);
-        // if (identity === 'null') {
-            this.createRecipe();
-        // } else {
-            
-        // }
+            } else {
+                createRecipeHTML.style.display = 'block';
+                this.createRecipe()
+            }
+        });
 
     }
 
@@ -106,7 +100,6 @@ class CreateRecipe extends BindingClass {
                 const servings = document.getElementById('servings').value;
                 const calories = document.getElementById('calories').value;
 
-                // createNotification.focus();
         
                 let recipeSteps;
                 if (recipeStepsText.length < 1) {
@@ -126,7 +119,7 @@ class CreateRecipe extends BindingClass {
                 });
 
                 createNotification.innerHTML = "Recipe for " + recipeName + " created successfully";
-                // tableBody.style.display = 'none';
+                tableBody.style.display = 'none';
                 this.dataStore.set('recipe', recipe);
                 
             })
