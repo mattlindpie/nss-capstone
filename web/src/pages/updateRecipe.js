@@ -82,6 +82,9 @@ class UpdateRecipe extends BindingClass {
             ingredientsDisplay.innerHTML = '';
             this.buildIngredientsTable(ingredientList, ingredientsDisplay);
 
+            const updateNotification = document.getElementById('update-notification');
+            updateNotification.innerHTML = "Updating " + recipeName;
+
             const updateButton = document.getElementById('submit-button');
             updateButton.addEventListener('click', async (evt) => {
                 evt.preventDefault();
@@ -92,11 +95,17 @@ class UpdateRecipe extends BindingClass {
 
                 recipeSteps = document.getElementById('recipe-steps').value;
                 recipeSteps = recipeSteps.split(/\s*,\s*/);
-
+                
+                const updateNotification = document.getElementById('update-notification');
+                updateNotification.innerHTML = "Updating " + recipeName;
+                updateNotification.style.display = 'block';
+                
                 await this.client.updateRecipe(recipeName, servings, recipeSteps, ingredientList, calories, (error) => {
                     errorMessageDisplay.innerText = `Error: ${error.message}`;
                     errorMessageDisplay.classList.remove('hidden');
                 });
+                updateNotification.innerHTML = "Recipe for " + recipeName + " updated successfully";
+
             })
         }
     }
@@ -146,7 +155,7 @@ class UpdateRecipe extends BindingClass {
         }
 
         const addButton = document.getElementById('add-button');
-        addButton.addEventListener('click', async (evt) => {
+        addButton.addEventListener('click', (evt) => {
             evt.preventDefault();
 
             const ingredientName = document.getElementById('ingredient-name').value;

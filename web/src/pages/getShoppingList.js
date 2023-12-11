@@ -49,15 +49,21 @@ class GetShoppingList extends BindingClass {
     displayShoppingList() {
         const searchCriteria = this.dataStore.get(SEARCH_CRITERIA_KEY);
         const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY);
+        console.log(searchResults);
 
         const shoppingListTableHTML = document.getElementById('shopping-list-table');
-        shoppingListTableHTML.innerHTML = '';
-        this.buildTable(searchResults, shoppingListTableHTML)
-    }
 
-    buildTable(searchResults, shoppingListTable) {
         const ingredients = searchResults.shoppingListItems;
         const ingredientsMap = new Map(Object.entries(ingredients));
+        
+        if (ingredientsMap.size < 1) {
+            shoppingListTableHTML.innerHTML = 'Shopping list is empty';
+        } else {
+            this.buildTable(ingredientsMap, shoppingListTableHTML);
+        }
+    }
+
+    buildTable(ingredientsMap, shoppingListTable) {
         
         const table = document.createElement('table');
 
@@ -127,8 +133,14 @@ class GetShoppingList extends BindingClass {
         submitButton.addEventListener('click', async(evt) => {
             evt.preventDefault();
             const mapObject = Object.fromEntries(ingredientsMap);
+
+            const updateNotification = document.getElementById('update-notification');
+            updateNotification.innerHTML = "Updating shopping list";
+            updateNotification.style.display = 'block';
+
             await this.client.updateShoppingList(mapObject);
-            window.alert("Changes Saved");
+            
+            updateNotification.innerHTML = "Shopping list updated successfully";
 
         })
 

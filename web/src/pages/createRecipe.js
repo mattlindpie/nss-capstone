@@ -13,6 +13,7 @@ class CreateRecipe extends BindingClass {
         this.dataStore = new DataStore();
         this.header = new Header(this.dataStore);
 
+
     }
 
     /**
@@ -20,15 +21,27 @@ class CreateRecipe extends BindingClass {
      */
     mount() {
 
-        this.createRecipe();
-
         this.header.addHeaderToPage();
 
         this.client = new PortionPerfectClient();
 
+        const createRecipeHTML = document.getElementById('create-recipe-form');
+        const promise = Promise.resolve(this.client.getIdentity());
+        
+        promise.then(value => {
+            if (value === undefined) {
+                document.getElementById('create-recipe-header').innerHTML = 'Please login to create a recipe.'
+                createRecipeHTML.style.display = 'none';
+
+            } else {
+                createRecipeHTML.style.display = 'block';
+                this.createRecipe()
+            }
+        });
+
     }
 
-        createRecipe() {
+        async createRecipe() {
 
             const ingredientInputTable = document.getElementById('ingredients-table');
             const table = document.createElement('table');
@@ -86,6 +99,7 @@ class CreateRecipe extends BindingClass {
                 const recipeStepsText = document.getElementById('recipeSteps').value;
                 const servings = document.getElementById('servings').value;
                 const calories = document.getElementById('calories').value;
+
         
                 let recipeSteps;
                 if (recipeStepsText.length < 1) {
@@ -93,17 +107,25 @@ class CreateRecipe extends BindingClass {
                 } else {
                     recipeSteps = recipeStepsText.split(/\s*,\s*/);
                 }
-        
+
+                const createNotification = document.getElementById('create-successful');
+                createNotification.innerHTML = "Creating " + recipeName;
+                createNotification.style.display = 'block';
+
                 const recipe = await this.client.createRecipe(recipeName, servings, recipeSteps, ingredients, calories, (error) => {
+                    
                     errorMessageDisplay.innerText = `Error: ${error.message}`;
                     errorMessageDisplay.classList.remove('hidden');
                 });
+
+                createNotification.innerHTML = "Recipe for " + recipeName + " created successfully";
+                tableBody.style.display = 'none';
                 this.dataStore.set('recipe', recipe);
+                
             })
         }
     
     addRow(tableBody, ingredient) {
-        console.log(ingredient);
         const row = tableBody.insertRow();
 
         const nameCell = row.insertCell(0);

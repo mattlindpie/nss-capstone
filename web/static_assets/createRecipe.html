@@ -9,13 +9,12 @@
 <body class="background">
 <header class="header" id="header"></header>
 <div class="card">
-
-    <h2>Create New Recipe</h2>
-    <form class="card-content" id="create-recipe-form">
+    <h2 id="create-recipe-header">Create New Recipe</h2>
+    <form hidden class="card-content" id="create-recipe-form">
         <p class="hidden error" id="error-message"> </p>
         <p class="form-field">
             <label>Recipe Name</label>
-            <input type="text" class="validated-field" id="recipeName" required>
+            <input type="text" class="validated-field" id="recipeName">
         </p>
         <p class="form-field">
             <label>Ingredient: </label>
@@ -55,6 +54,8 @@
 
         <p>
             <a href="#" class="button" id="submit-button">Create Recipe</a>
+            <h4 hidden id="create-successful"></h4>
+
         </p>
     </form>
 
