@@ -162,7 +162,7 @@ class GetShoppingList extends BindingClass {
     }
 
     toggleHide() {
-        const form = document.getElementById("submit-button");
+        const form = document.getElementById("update-notification");
         if (form.style.display === "block") {
             form.style.display = "none";
         } else {
