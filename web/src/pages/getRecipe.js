@@ -16,7 +16,7 @@ const EMPTY_DATASTORE_STATE = {
 class GetRecipe extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['mount', 'submit', 'getRecipe', 'displayRecipe', 'getHTMLForSearchResults', 'getIngredientsList', 'displayRecipeSteps'], this);
+        this.bindClassMethods(['mount', 'submit', 'getRecipe', 'displayRecipe', 'getHTMLForSearchResults', 'getIngredientsList', 'displayRecipeSteps', 'toggleHide'], this);
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
         this.dataStore.addChangeListener(this.displayRecipe);
@@ -38,6 +38,10 @@ class GetRecipe extends BindingClass {
         const recipeName = urlParams.get('recipeName');
 
         this.getRecipe(recipeName);
+
+        const editRecipeButton = document.getElementById('edit-recipe-button');
+        editRecipeButton.href = `updateRecipe.html?recipeName=${recipeName}`;
+
     }
 
     async getRecipe(recipeName) {
@@ -67,14 +71,14 @@ class GetRecipe extends BindingClass {
         });
 
         const addNotification = document.getElementById('add-notification');
-        addNotification.innerHTML = "Adding ingredients";
-        addNotification.style.display = 'block';
-
+        addNotification.innerHTML = "Adding ingredients...";
+        this.toggleHide();
         await this.client.addToShoppingList(ingredientNames, (error) => {
             createButton.innerText = origButtonText;
         });
 
         addNotification.innerHTML = "Ingredients added to list";
+        setTimeout(this.toggleHide, 5000);
     }
 
     displayRecipe() {
@@ -183,6 +187,14 @@ class GetRecipe extends BindingClass {
         return container.outerHTML;
     }
 
+    toggleHide() {
+        const form = document.getElementById("add-notification");
+        if (form.style.display === "block") {
+            form.style.display = "none";
+        } else {
+            form.style.display = "block";
+        }
+    }
 }
 
 const main = async () => {

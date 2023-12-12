@@ -16,7 +16,7 @@ const EMPTY_DATASTORE_STATE = {
 class UpdateRecipe extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['mount', 'getRecipe', 'displayRecipe', 'getHTMLForSearchResults', 'buildIngredientsTable', 'displayRecipeSteps', 'addRow'], this);
+        this.bindClassMethods(['mount', 'getRecipe', 'displayRecipe', 'getHTMLForSearchResults', 'buildIngredientsTable', 'displayRecipeSteps', 'addRow', 'toggleHide'], this);
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
 
@@ -97,15 +97,15 @@ class UpdateRecipe extends BindingClass {
                 recipeSteps = recipeSteps.split(/\s*,\s*/);
                 
                 const updateNotification = document.getElementById('update-notification');
-                updateNotification.innerHTML = "Updating " + recipeName;
-                updateNotification.style.display = 'block';
+                updateNotification.innerHTML = "Updating " + recipeName + "...";
+                this.toggleHide();
                 
                 await this.client.updateRecipe(recipeName, servings, recipeSteps, ingredientList, calories, (error) => {
                     errorMessageDisplay.innerText = `Error: ${error.message}`;
                     errorMessageDisplay.classList.remove('hidden');
                 });
                 updateNotification.innerHTML = "Recipe for " + recipeName + " updated successfully";
-
+                setTimeout(this.toggleHide, 5000);
             })
         }
     }
@@ -166,6 +166,9 @@ class UpdateRecipe extends BindingClass {
 
             ingredientList.push(ingredient);
             this.addRow(tableBody, ingredient, ingredientList);
+            
+            document.getElementById('ingredient-name').value = '';
+            document.getElementById('amount').value = '';
             
         })
 
@@ -264,6 +267,15 @@ class UpdateRecipe extends BindingClass {
         subtractOneFromAmountCell.appendChild(subtractButton);
         addOneToAmountCell.appendChild(addOneButton);
 
+    }
+
+    toggleHide() {
+        const form = document.getElementById("update-notification");
+        if (form.style.display === "block") {
+            form.style.display = "none";
+        } else {
+            form.style.display = "block";
+        }
     }
 }
 

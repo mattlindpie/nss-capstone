@@ -16,7 +16,7 @@ const EMPTY_DATASTORE_STATE = {
 class GetShoppingList extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['mount', 'loadShoppingList', 'displayShoppingList', 'buildTable'], this);
+        this.bindClassMethods(['mount', 'loadShoppingList', 'displayShoppingList', 'buildTable', 'toggleHide'], this);
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         
         this.header = new Header(this.dataStore);
@@ -135,12 +135,12 @@ class GetShoppingList extends BindingClass {
             const mapObject = Object.fromEntries(ingredientsMap);
 
             const updateNotification = document.getElementById('update-notification');
-            updateNotification.innerHTML = "Updating shopping list";
-            updateNotification.style.display = 'block';
-
+            updateNotification.innerHTML = "Updating shopping list...";
+            this.toggleHide();
             await this.client.updateShoppingList(mapObject);
             
             updateNotification.innerHTML = "Shopping list updated successfully";
+            setTimeout(this.toggleHide, 5000);
 
         })
 
@@ -159,6 +159,15 @@ class GetShoppingList extends BindingClass {
 
         shoppingListTable.appendChild(table);
 
+    }
+
+    toggleHide() {
+        const form = document.getElementById("submit-button");
+        if (form.style.display === "block") {
+            form.style.display = "none";
+        } else {
+            form.style.display = "block";
+        }
     }
 
 }

@@ -84,6 +84,9 @@ class CreateRecipe extends BindingClass {
 
                 this.addRow(tableBody, ingredient);
                 
+                document.getElementById('ingredient-name').value = '';
+                document.getElementById('amount').value = '';
+                
             })
 
             const submitButton = document.getElementById('submit-button');
@@ -109,7 +112,7 @@ class CreateRecipe extends BindingClass {
                 }
 
                 const createNotification = document.getElementById('create-successful');
-                createNotification.innerHTML = "Creating " + recipeName;
+                createNotification.innerHTML = "Creating " + recipeName + "...";
                 createNotification.style.display = 'block';
 
                 const recipe = await this.client.createRecipe(recipeName, servings, recipeSteps, ingredients, calories, (error) => {
@@ -119,9 +122,9 @@ class CreateRecipe extends BindingClass {
                 });
 
                 createNotification.innerHTML = "Recipe for " + recipeName + " created successfully";
-                tableBody.style.display = 'none';
+                tableBody.innerHTML = '';
                 this.dataStore.set('recipe', recipe);
-                
+                window.location.replace('index.html');
             })
         }
     
