@@ -111,20 +111,22 @@ class CreateRecipe extends BindingClass {
                     recipeSteps = recipeStepsText.split(/\s*,\s*/);
                 }
 
-                const createNotification = document.getElementById('create-successful');
+                const createNotification = document.getElementById('create-notifcation');
                 createNotification.innerHTML = "Creating " + recipeName + "...";
-                createNotification.style.display = 'block';
-
-                const recipe = await this.client.createRecipe(recipeName, servings, recipeSteps, ingredients, calories, (error) => {
-                    
+                this.toggleHide();
+                const recipe = await this.client.createRecipe(recipeName, servings, recipeSteps, ingredients, calories, (error) => {                    
                     errorMessageDisplay.innerText = `Error: ${error.message}`;
                     errorMessageDisplay.classList.remove('hidden');
+                    this.toggleHide();
                 });
+                
+                if (errorMessageDisplay.classList.contains('hidden')) {
+                    createNotification.innerHTML = "Recipe for " + recipeName + " created successfully";
+                    tableBody.innerHTML = '';
+                    this.dataStore.set('recipe', recipe);
+                    window.location.replace('index.html');
+                }
 
-                createNotification.innerHTML = "Recipe for " + recipeName + " created successfully";
-                tableBody.innerHTML = '';
-                this.dataStore.set('recipe', recipe);
-                window.location.replace('index.html');
             })
         }
     
@@ -140,6 +142,15 @@ class CreateRecipe extends BindingClass {
         unitCell.textContent = ingredient.unitOfMeasurement;
 
     }
+
+    toggleHide() {
+        const form = document.getElementById("create-notifcation");
+        if (form.style.display === "block") {
+            form.style.display = "none";
+        } else {
+            form.style.display = "block";
+        }
+    }a
 
 }
 

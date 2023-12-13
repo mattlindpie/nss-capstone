@@ -92,7 +92,7 @@ export default class PortionPerfectClient extends BindingClass {
             });
             return response.data.recipe;
         } catch (error) {
-            this.handleError(error, errorCallback)
+            this.handleError(error, errorCallback);
         }
     }
 
