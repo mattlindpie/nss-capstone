@@ -19,6 +19,10 @@ public class CreateRecipeActivity {
     }
 
     public CreateRecipeResult handleRequest(CreateRecipeRequest request) {
+        if (recipeDao.getRecipe(request.getUserId(), request.getRecipeName()) != null) {
+            throw new RuntimeException("Recipe with that name already exists.");
+        }
+
         Recipe newRecipe = new Recipe();
         newRecipe.setUserId(request.getUserId());
         newRecipe.setRecipeName(request.getRecipeName());
