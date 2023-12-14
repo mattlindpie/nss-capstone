@@ -26,7 +26,7 @@ class UpdateRecipe extends BindingClass {
      * Add the header to the page and load the PortionPerfectClient.
      */
     mount() {
-        // this.dataStore.addChangeListener(this.displayRecipe);
+        this.dataStore.addChangeListener(this.displayRecipe);
 
         this.header.addHeaderToPage();
 
@@ -37,22 +37,30 @@ class UpdateRecipe extends BindingClass {
 
         this.getRecipe(recipeName);
 
-        const loadingNotification = document.getElementById('loading-notification');
-        loadingNotification.innerHTML = 'Loading ' + recipeName + '...';
-        this.toggleHide(loadingNotification);
+        // const loadingNotification = document.getElementById('loading-notification');
+        // loadingNotification.innerHTML = 'Loading ' + recipeName + '...';
+        // this.toggleHide(loadingNotification);
 
-        this.dataStore.addChangeListener(this.displayRecipe);
-        this.toggleHide(loadingNotification);
+        // this.dataStore.addChangeListener(this.displayRecipe);
+        // this.toggleHide(loadingNotification);
     }
 
     async getRecipe(recipeName) {
                 if (recipeName) {
+
+                    const loadingNotification = document.getElementById('loading-notification');
+                    loadingNotification.innerHTML = 'Loading ' + recipeName + '...';
+                    this.toggleHide(loadingNotification);
+
                     const recipe = await this.client.getRecipe(recipeName);
 
                     this.dataStore.setState({
                         [SEARCH_CRITERIA_KEY]: recipeName,
                         [SEARCH_RESULTS_KEY]: recipe,
                     });
+
+                    this.toggleHide(loadingNotification);
+
                 } else {
                     this.dataStore.setState(EMPTY_DATASTORE_STATE);
                 }

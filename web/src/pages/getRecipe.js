@@ -48,12 +48,20 @@ class GetRecipe extends BindingClass {
 
     async getRecipe(recipeName) {
                 if (recipeName) {
+
+                    const loadingNotification = document.getElementById('loading-notification');
+                    loadingNotification.innerHTML = 'Loading ' + recipeName + '...';
+                    this.toggleHide(loadingNotification);
+
                     const recipe = await this.client.getRecipe(recipeName);
 
                     this.dataStore.setState({
                         [SEARCH_CRITERIA_KEY]: recipeName,
                         [SEARCH_RESULTS_KEY]: recipe,
                     });
+
+                    this.toggleHide(loadingNotification);
+
                 } else {
                     this.dataStore.setState(EMPTY_DATASTORE_STATE);
                 }
@@ -89,10 +97,6 @@ class GetRecipe extends BindingClass {
         const searchCriteria = this.dataStore.get(SEARCH_CRITERIA_KEY);
         const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY);
 
-        const loadingNotification = document.getElementById('loading-notification');
-        loadingNotification.innerHTML = 'Loading ' + `${searchCriteria}` + '...';
-        this.toggleHide(loadingNotification);
-
         const recipeNameDisplay = document.getElementById('recipe-name-display');
         const searchResultsDisplay = document.getElementById('search-results-container');
         const ingredientsDisplay = document.getElementById('ingredients-display');
@@ -107,7 +111,6 @@ class GetRecipe extends BindingClass {
             searchResultsDisplay.innerHTML = this.getHTMLForSearchResults(searchResults); 
             ingredientsDisplay.innerHTML = this.getIngredientsList(searchResults);
             recipeStepsDisplay.innerHTML = this.displayRecipeSteps(searchResults);
-            this.toggleHide(loadingNotification);
         }
 
     }

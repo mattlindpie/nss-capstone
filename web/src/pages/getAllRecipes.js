@@ -37,28 +37,30 @@ class GetAllRecipes extends BindingClass {
     }
 
     async loadRecipes() {
+
+        const loadingNotification = document.getElementById('loading-notification');
+        loadingNotification.innerHTML = 'Loading recipes...';
+        this.toggleHide(loadingNotification);
+
         console.log("IN LOAD RECIPES");
         const recipes = await this.client.getAllRecipes();
         this.dataStore.setState({
             [SEARCH_CRITERIA_KEY]: "recipes",
             [SEARCH_RESULTS_KEY]: recipes
         });
+
+        this.toggleHide(loadingNotification);
+
     }
 
     displayRecipes() {
         console.log("IN DISPLAY RECIPES");
-
-        const loadingNotification = document.getElementById('loading-notification');
-        loadingNotification.innerHTML = 'Loading recipes...';
-        this.toggleHide(loadingNotification);
 
         const recipeList = this.dataStore.get(SEARCH_RESULTS_KEY);
 
         const recipesTableHTML = document.getElementById('recipes-table');
         recipesTableHTML.innerHTML = '';
         this.buildTable(recipeList, recipesTableHTML);
-        
-        this.toggleHide(loadingNotification);
     }
     
 

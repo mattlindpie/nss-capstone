@@ -39,11 +39,19 @@ class GetShoppingList extends BindingClass {
     }
 
     async loadShoppingList() {
+
+        const loadingNotification = document.getElementById('loading-notification');
+        loadingNotification.innerHTML = 'Loading shopping list...';
+        this.toggleHide(loadingNotification);
+
         const shoppingList = await this.client.getShoppingList();
             this.dataStore.setState({
                 [SEARCH_CRITERIA_KEY]: "shoppingList",
                 [SEARCH_RESULTS_KEY]: shoppingList,
             });
+
+        this.toggleHide(loadingNotification);
+
     }
 
     displayShoppingList() {
@@ -136,11 +144,13 @@ class GetShoppingList extends BindingClass {
 
             const updateNotification = document.getElementById('update-notification');
             updateNotification.innerHTML = "Updating shopping list...";
-            this.toggleHide();
+            this.toggleHide(updateNotification);
             await this.client.updateShoppingList(mapObject);
             
             updateNotification.innerHTML = "Shopping list updated successfully";
-            setTimeout(this.toggleHide, 5000);
+            setTimeout(() => {
+                this.toggleHide(updateNotification);
+            }, 5000);
 
         })
 
@@ -161,12 +171,11 @@ class GetShoppingList extends BindingClass {
 
     }
 
-    toggleHide() {
-        const form = document.getElementById("update-notification");
-        if (form.style.display === "block") {
-            form.style.display = "none";
+    toggleHide(HTMLNotification) {
+        if (HTMLNotification.style.display === "block") {
+            HTMLNotification.style.display = "none";
         } else {
-            form.style.display = "block";
+            HTMLNotification.style.display = "block";
         }
     }
 
