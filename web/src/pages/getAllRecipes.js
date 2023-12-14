@@ -16,7 +16,7 @@ const EMPTY_DATASTORE_STATE = {
 class GetAllRecipes extends BindingClass {
     constructor() {
         super();
-        this.bindClassMethods(['mount', 'loadRecipes', 'displayRecipes', 'buildTable', 'submit'], this);
+        this.bindClassMethods(['mount', 'loadRecipes', 'displayRecipes', 'buildTable', 'submit', 'toggleHide'], this);
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
         this.displayRecipes = this.displayRecipes.bind(this);
@@ -48,11 +48,17 @@ class GetAllRecipes extends BindingClass {
     displayRecipes() {
         console.log("IN DISPLAY RECIPES");
 
+        const loadingNotification = document.getElementById('loading-notification');
+        loadingNotification.innerHTML = 'Loading recipes...';
+        this.toggleHide(loadingNotification);
+
         const recipeList = this.dataStore.get(SEARCH_RESULTS_KEY);
 
         const recipesTableHTML = document.getElementById('recipes-table');
         recipesTableHTML.innerHTML = '';
         this.buildTable(recipeList, recipesTableHTML);
+        
+        this.toggleHide(loadingNotification);
     }
     
 
@@ -98,8 +104,12 @@ class GetAllRecipes extends BindingClass {
             deleteButton.addEventListener('click', async () => {
                  let deleteYN = confirm("Are you sure you want to delete this recipe?");
                  if (deleteYN === true) {
+                    const deleteNotification = document.getElementById('delete-notification');
+                    deleteNotification.innerHTML = 'Deleting ' + recipeName + '...';
+                    this.toggleHide(deleteNotification);
                     await this.client.deleteRecipe(recipeName);
-                      this.loadRecipes();
+                    this.loadRecipes();
+                    this.toggleHide(deleteNotification);
                  }
             });
             deleteButtonCell.appendChild(deleteButton);
@@ -137,6 +147,14 @@ class GetAllRecipes extends BindingClass {
             errorMessageDisplay.classList.remove('hidden');
         });
         this.dataStore.set('recipe', recipe);
+    }
+
+    toggleHide(HTMLNotification) {
+        if (HTMLNotification.style.display === "block") {
+            HTMLNotification.style.display = "none";
+        } else {
+            HTMLNotification.style.display = "block";
+        }
     }
 }
 

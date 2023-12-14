@@ -19,7 +19,7 @@ class GetRecipe extends BindingClass {
         this.bindClassMethods(['mount', 'submit', 'getRecipe', 'displayRecipe', 'getHTMLForSearchResults', 'getIngredientsList', 'displayRecipeSteps', 'toggleHide'], this);
         this.dataStore = new DataStore(EMPTY_DATASTORE_STATE);
         this.header = new Header(this.dataStore);
-        this.dataStore.addChangeListener(this.displayRecipe);
+        // this.dataStore.addChangeListener(this.displayRecipe);
 
     }
 
@@ -36,8 +36,10 @@ class GetRecipe extends BindingClass {
 
         const urlParams = new URLSearchParams(window.location.search);
         const recipeName = urlParams.get('recipeName');
-
+        
         this.getRecipe(recipeName);
+
+        this.dataStore.addChangeListener(this.displayRecipe);
 
         const editRecipeButton = document.getElementById('edit-recipe-button');
         editRecipeButton.href = `updateRecipe.html?recipeName=${recipeName}`;
@@ -72,18 +74,24 @@ class GetRecipe extends BindingClass {
 
         const addNotification = document.getElementById('add-notification');
         addNotification.innerHTML = "Adding ingredients...";
-        this.toggleHide();
+        this.toggleHide(addNotification);
         await this.client.addToShoppingList(ingredientNames, (error) => {
             createButton.innerText = origButtonText;
         });
 
         addNotification.innerHTML = "Ingredients added to list";
-        setTimeout(this.toggleHide, 5000);
+        setTimeout(() => {
+            this.toggleHide(addNotification);
+        }, 5000);
     }
 
     displayRecipe() {
         const searchCriteria = this.dataStore.get(SEARCH_CRITERIA_KEY);
         const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY);
+
+        const loadingNotification = document.getElementById('loading-notification');
+        loadingNotification.innerHTML = 'Loading ' + `${searchCriteria}` + '...';
+        this.toggleHide(loadingNotification);
 
         const recipeNameDisplay = document.getElementById('recipe-name-display');
         const searchResultsDisplay = document.getElementById('search-results-container');
@@ -99,7 +107,9 @@ class GetRecipe extends BindingClass {
             searchResultsDisplay.innerHTML = this.getHTMLForSearchResults(searchResults); 
             ingredientsDisplay.innerHTML = this.getIngredientsList(searchResults);
             recipeStepsDisplay.innerHTML = this.displayRecipeSteps(searchResults);
+            this.toggleHide(loadingNotification);
         }
+
     }
 
     getHTMLForSearchResults(searchResults) {
@@ -187,12 +197,11 @@ class GetRecipe extends BindingClass {
         return container.outerHTML;
     }
 
-    toggleHide() {
-        const form = document.getElementById("add-notification");
-        if (form.style.display === "block") {
-            form.style.display = "none";
+    toggleHide(HTMLNotification) {
+        if (HTMLNotification.style.display === "block") {
+            HTMLNotification.style.display = "none";
         } else {
-            form.style.display = "block";
+            HTMLNotification.style.display = "block";
         }
     }
 }

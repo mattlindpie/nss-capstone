@@ -26,7 +26,7 @@ class UpdateRecipe extends BindingClass {
      * Add the header to the page and load the PortionPerfectClient.
      */
     mount() {
-        this.dataStore.addChangeListener(this.displayRecipe);
+        // this.dataStore.addChangeListener(this.displayRecipe);
 
         this.header.addHeaderToPage();
 
@@ -36,6 +36,13 @@ class UpdateRecipe extends BindingClass {
         const recipeName = urlParams.get('recipeName');
 
         this.getRecipe(recipeName);
+
+        const loadingNotification = document.getElementById('loading-notification');
+        loadingNotification.innerHTML = 'Loading ' + recipeName + '...';
+        this.toggleHide(loadingNotification);
+
+        this.dataStore.addChangeListener(this.displayRecipe);
+        this.toggleHide(loadingNotification);
     }
 
     async getRecipe(recipeName) {
@@ -98,14 +105,16 @@ class UpdateRecipe extends BindingClass {
                 
                 const updateNotification = document.getElementById('update-notification');
                 updateNotification.innerHTML = "Updating " + recipeName + "...";
-                this.toggleHide();
+                this.toggleHide(updateNotification);
                 
                 await this.client.updateRecipe(recipeName, servings, recipeSteps, ingredientList, calories, (error) => {
                     errorMessageDisplay.innerText = `Error: ${error.message}`;
                     errorMessageDisplay.classList.remove('hidden');
                 });
                 updateNotification.innerHTML = "Recipe for " + recipeName + " updated successfully";
-                setTimeout(this.toggleHide, 5000);
+                setTimeout(() => {
+                    this.toggleHide(updateNotification)
+                }, 5000);
             })
         }
     }
@@ -269,12 +278,11 @@ class UpdateRecipe extends BindingClass {
 
     }
 
-    toggleHide() {
-        const form = document.getElementById("update-notification");
-        if (form.style.display === "block") {
-            form.style.display = "none";
+    toggleHide(HTMLNotification) {
+        if (HTMLNotification.style.display === "block") {
+            HTMLNotification.style.display = "none";
         } else {
-            form.style.display = "block";
+            HTMLNotification.style.display = "block";
         }
     }
 }
