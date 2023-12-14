@@ -8,15 +8,7 @@
 
 People have to balance a lot of tasks when they cook. It's difficult for some to manually adjust recipes' ingredients to the amount they need versus the amount the recipe calls for. The goal of this app is to allow a user to build their own recipes and to provide them with the ability to easily adjust measurements according to the number of servings, switch between units of measurement, and create editable grocery lists based on the recipe's requirements.
 
-## 2. Top Questions to Resolve in Review
-
----
-
-1. Would it be a good idea to cache the recipes that are called from the database?
-2. Does it make sense to store the ShoppingList items as a Map<Ingredient, Integer(quantity)> as opposed to 
-just having a Set<String(ingredientNames)>
-
-## 3. Use Cases
+## 2. Use Cases
 
 ---
 
@@ -44,31 +36,30 @@ U11. As a customer, I want to save past lists
 
 U12. As a customer, I want to have my favorite recipes displayed on the homepage
 
-## 4. Project Scope
+## 3. Project Scope
 
 ---
 
-### 4.1 In Scope
+### 3.1 In Scope
 
 - Create recipes and display their names on the homepage
 - Display chosen recipe on its own page
-    - Toggle between imperial and metric system
     - Allow for scaling ingredients according to number of servings
-- Add recipe ingredients to a list
+- Add recipe ingredients to a shopping list
 - Display list and quantities needed
+- Filtering recipes through a range of calories
 - Delete items from list
 
 
-### 4.2 Out of Scope
+### 3.2 Out of Scope
 
 - Ability to compare recipes
 - Scheduling meals ahead of time
 - Favorite recipes
 - Saving past lists
 - Filtering recipes by individual ingredients
-- Filtering recipes through a range of calories
 
-## 5. Proposed Architecture Overview
+## 4. Proposed Architecture Overview
 
 ---
 
@@ -77,18 +68,19 @@ along with creating an editable shopping list, displaying all recipes on the hom
 recipe with adjustable requirements according to number of desired servings, and with the ability to toggle
 between systems of measurement.
 
-Current expected endpoints(`CreateRecipe`, `GetRecipe`, `GetAllRecipes`, `UpdateRecipe`, `DeleteRecipe`,  `CreateList`, `GetList`, `UpdateList`)
+Current expected endpoints(`CreateRecipe`, `GetRecipe`, `GetAllRecipes`, `UpdateRecipe`, 
+`DeleteRecipe`,  `AddToShoppingList`, `GetShoppingList`, `UpdateShoppingList`)
 
 Recipes and shopping lists will be stored in their respective DynamoDB tables. The homepage will display the 
 names of all recipes along with the option to edit, delete, navigate to a details page, or add the recipe to 
 the shopping list. The homepage will also have the option to create and save a new recipe to the table, and 
 navigate to the shopping list page.
 
-## 6. API
+## 5. API
 
 ---
 
-### 6.1 Public Models
+### 5.1 Public Models
 
 #### RecipeModel
 
@@ -96,12 +88,9 @@ navigate to the shopping list page.
 String userId
 String recipeName
 Integer servings
-Map<Integer, String> recipeSteps
+List<String> recipeSteps
 List<Ingredient> ingredients
 Integer calories
-Enum systemOfMeasurement
-    - METRIC
-    - IMPERIAL
 ```
 
 #### IngredientModel
@@ -109,16 +98,8 @@ Enum systemOfMeasurement
 ```
 String ingredientName
 Double amount
-Enum unitOfMeasurement
-    - OUNCES
-    - FLUID_OUNCES
-    - CUPS
-    - TEASPOONS
-    - TABLESPOONS
-    - GRAMS
-    - MILLIGRAMS
-    - MILLILITERS
-    - COUNT
+String unitOfMeasurement
+
 ```
 
 #### ShoppingListModel
@@ -130,14 +111,14 @@ Map<Ingredient, Integer(quantity)> shoppingListItems
 
 
 
-### 6.2 CreateRecipe Endpoint
+### 5.2 CreateRecipe Endpoint
 
 ---
 
 - Accepts `POST` requests to `/recipes`
 - Accepts data to create a new recipe with a provided name, a given customerId, a number of servings,calories, a list of steps for the recipe, and a system of measurement
 
-### 6.3 GetRecipe Endpoint
+### 5.3 GetRecipe Endpoint
 
 ---
 
@@ -145,53 +126,54 @@ Map<Ingredient, Integer(quantity)> shoppingListItems
 - Accepts a user ID and a recipe name and returns the corresponding RecipeModel
     - if the recipe does not exist, it throws a `RecipeNotFoundException`
 
-### 6.4 GetAllRecipes Endpoint
+### 5.4 GetAllRecipes Endpoint
 
 ---
 
 - Accepts `GET` requests to `/recipes`
 - Accepts a userId and returns all recipes from table with matching id
 
-### 6.5 UpdateRecipe Endpoint
+### 5.5 UpdateRecipe Endpoint
 
 ---
 
-- Accepts `PUT` requests to `/recipes/:recipeName`
+- Accepts `PUT` requests to `/recipes/{recipeName}`
 - Accepts data to update a recipe such as new ingredients, changing their measurements, or removing them
 - if the recipe does not exist, it throws a `RecipeNotFoundException`
 
-### 6.6 DeleteRecipe Endpoint
+### 5.6 DeleteRecipe Endpoint
 
 ---
 
-- Accepts `DELETE` requests to `/recipes/:recipeName`
+- Accepts `DELETE` requests to `/recipes/{recipeName}`
 - Accepts a userId and recipeName to remove a recipe from the table
   - if the recipe does not exist, it throws a `RecipeNotFoundException`
 
-### 6.7 CreateList Endpoint
+### 5.7 AddToShoppingList Endpoint
 
 ---
 
-- Accepts `POST` requests to `/list`
-- Accepts a userId and creates a single list within the table
+- Accepts `POST` requests to `/shoppingList`
+- Accepts a userId and adds ingredients to the table
+- If no shopping list for the user exists, it will create one
 - Each user should only have one list
 
-### 6.8 GetList Endpoint
+### 5.8 GetList Endpoint
 
 ---
 
-- Accepts `GET` requests to `/list`
+- Accepts `GET` requests to `/shoppingList`
 - Accepts a userId and retrieves the single list within the table
 
-### 6.9 UpdateList Endpoint
+### 5.9 UpdateList Endpoint
 
 ---
 
-- Accepts `PUT` requests to `/list`
+- Accepts `PUT` requests to `/shoppingList`
 - Accepts new lists of ingredients and adds them to existing list
 - User will have the option to edit items from list or clear list
 
-## 7. Tables
+## 6. Tables
 
 ---
 
@@ -200,18 +182,14 @@ Map<Ingredient, Integer(quantity)> shoppingListItems
 S // userId - hashkey/GSIHashkey
 S // recipeName - rangekey
 N // servings
-Set<S> // steps
-Set<S> // ingredients
+S // steps
+S // ingredients
 N // calories/GSIRangekey
-S // systemOfMeasurement
 ```
 
 ### ShoppingList
 ```
 S // userId - hashkey
-Set<S> // listItems
+S // shoppingListItems
 ```
 
-## 8. Pages
-
----
