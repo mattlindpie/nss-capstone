@@ -36,16 +36,31 @@ class UpdateRecipe extends BindingClass {
         const recipeName = urlParams.get('recipeName');
 
         this.getRecipe(recipeName);
+
+        // const loadingNotification = document.getElementById('loading-notification');
+        // loadingNotification.innerHTML = 'Loading ' + recipeName + '...';
+        // this.toggleHide(loadingNotification);
+
+        // this.dataStore.addChangeListener(this.displayRecipe);
+        // this.toggleHide(loadingNotification);
     }
 
     async getRecipe(recipeName) {
                 if (recipeName) {
+
+                    const loadingNotification = document.getElementById('loading-notification');
+                    loadingNotification.innerHTML = 'Loading ' + recipeName + '...';
+                    this.toggleHide(loadingNotification);
+
                     const recipe = await this.client.getRecipe(recipeName);
 
                     this.dataStore.setState({
                         [SEARCH_CRITERIA_KEY]: recipeName,
                         [SEARCH_RESULTS_KEY]: recipe,
                     });
+
+                    this.toggleHide(loadingNotification);
+
                 } else {
                     this.dataStore.setState(EMPTY_DATASTORE_STATE);
                 }
@@ -98,14 +113,16 @@ class UpdateRecipe extends BindingClass {
                 
                 const updateNotification = document.getElementById('update-notification');
                 updateNotification.innerHTML = "Updating " + recipeName + "...";
-                this.toggleHide();
+                this.toggleHide(updateNotification);
                 
                 await this.client.updateRecipe(recipeName, servings, recipeSteps, ingredientList, calories, (error) => {
                     errorMessageDisplay.innerText = `Error: ${error.message}`;
                     errorMessageDisplay.classList.remove('hidden');
                 });
                 updateNotification.innerHTML = "Recipe for " + recipeName + " updated successfully";
-                setTimeout(this.toggleHide, 5000);
+                setTimeout(() => {
+                    this.toggleHide(updateNotification)
+                }, 5000);
             })
         }
     }
@@ -269,12 +286,11 @@ class UpdateRecipe extends BindingClass {
 
     }
 
-    toggleHide() {
-        const form = document.getElementById("update-notification");
-        if (form.style.display === "block") {
-            form.style.display = "none";
+    toggleHide(HTMLNotification) {
+        if (HTMLNotification.style.display === "block") {
+            HTMLNotification.style.display = "none";
         } else {
-            form.style.display = "block";
+            HTMLNotification.style.display = "block";
         }
     }
 }
