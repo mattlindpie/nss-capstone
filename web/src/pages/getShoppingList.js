@@ -57,7 +57,6 @@ class GetShoppingList extends BindingClass {
     displayShoppingList() {
         const searchCriteria = this.dataStore.get(SEARCH_CRITERIA_KEY);
         const searchResults = this.dataStore.get(SEARCH_RESULTS_KEY);
-        console.log(searchResults);
 
         const shoppingListTableHTML = document.getElementById('shopping-list-table');
 

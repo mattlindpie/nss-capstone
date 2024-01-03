@@ -195,8 +195,6 @@ class UpdateRecipe extends BindingClass {
     }
 
     displayRecipeSteps(recipeSteps, recipeStepsDisplay) {
-        console.log(recipeSteps);
-
 
         let stepsInput = document.getElementById('recipe-steps');
         stepsInput.value = recipeSteps;
@@ -209,7 +207,6 @@ class UpdateRecipe extends BindingClass {
             const stepList = document.createElement('ol');
     
             recipeSteps.forEach((step) => {
-                console.log(step);
                 const listItem = document.createElement('li');
                 listItem.textContent = step;
                 stepList.appendChild(listItem);

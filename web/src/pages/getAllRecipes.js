@@ -54,7 +54,6 @@ class GetAllRecipes extends BindingClass {
     }
 
     displayRecipes() {
-        console.log("IN DISPLAY RECIPES");
 
         const recipeList = this.dataStore.get(SEARCH_RESULTS_KEY);
 
@@ -65,7 +64,6 @@ class GetAllRecipes extends BindingClass {
     
 
     buildTable(recipeList, recipesTable) {
-        console.log("IN BUILD TABLE");
 
         for (const recipe of recipeList) {
             const row = document.createElement('tr');
@@ -126,7 +124,6 @@ class GetAllRecipes extends BindingClass {
      * recipe.
      */
      async submit(evt) {
-        console.log("SUBMIT METHOD");
         evt.preventDefault();
 
         const errorMessageDisplay = document.getElementById('error-message');
@@ -161,7 +158,6 @@ class GetAllRecipes extends BindingClass {
 }
 
 const main = async () => {
-    console.log("IN MAIN");
     const getAllRecipes = new GetAllRecipes();
     getAllRecipes.mount();
 };
